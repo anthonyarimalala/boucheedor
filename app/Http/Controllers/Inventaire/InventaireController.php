@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Http\Controllers\Inventaire;
+
+use App\Http\Controllers\Controller;
+use App\Models\views\V_Mouvement;
+use Illuminate\Http\Request;
+
+class InventaireController extends Controller
+{
+    //
+    public function showInventaireProduit()
+    {
+        $data['v_mouvements'] = V_Mouvement::where('type_categorie', 'Produit')
+            ->where('reste_en_stock','!=',0)
+            ->where('emplacement', '!=', '')
+            ->get();
+        $m_v_mouvement = new V_Mouvement();
+        $data['m_v_mouvement'] = $m_v_mouvement;
+        return view('inventaire/produit')->with($data);
+    }
+    public function showInventaireIngredient()
+    {
+        $data['v_mouvements'] = V_Mouvement::where('type_categorie', 'Ingredient')->where('reste_en_stock','!=',0)
+            ->where('emplacement', '!=', '')
+            ->get();
+        $m_v_mouvement = new V_Mouvement();
+        $data['m_v_mouvement'] = $m_v_mouvement;
+        return view('inventaire/ingredient')->with($data);
+    }
+    public function showInventaireNonConsommable()
+    {
+        $data['v_mouvements'] = V_Mouvement::where('type_categorie', 'Non_consommable')->where('reste_en_stock','!=',0)
+            ->where('emplacement', '!=', '')
+            ->get();
+        $m_v_mouvement = new V_Mouvement();
+        $data['m_v_mouvement'] = $m_v_mouvement;
+        return view('inventaire/non-consommable')->with($data);
+    }
+
+
+}

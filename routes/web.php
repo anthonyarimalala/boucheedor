@@ -1,0 +1,91 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('login', function() {
+    return view('authentification/login');
+});
+Route::post('login', [ \App\Http\Controllers\Authentification\LoginController::class, 'login'])->name('login');
+Route::post('logout', [\App\Http\Controllers\Authentification\LoginController::class, 'logout'])->name('logout');
+Route::get('register', function() {
+   return view('authentification/register');
+});
+Route::post('register', [ \App\Http\Controllers\Authentification\LoginController::class, 'register'])->name('register');
+
+
+Route::middleware('auth')->group(function() {
+
+    # section : crud de base
+
+    Route::get('create-categorie', [\App\Http\Controllers\Crud\CategorieController::class, 'createPageCategorie']);
+    Route::post('create-categorie', [\App\Http\Controllers\Crud\CategorieController::class, 'createCategorie'])->name('create-categorie');
+
+    Route::get('create-emplacement', [\App\Http\Controllers\Crud\EmplacementController::class, 'createPageEmplacement']);
+    Route::post('create-emplacement', [\App\Http\Controllers\Crud\EmplacementController::class, 'createEmplacement'])->name('create-emplacement');
+
+    Route::get('create-ingredient', [\App\Http\Controllers\Crud\IngredientController::class, 'createPageIngredient']);
+    Route::post('create-ingredient', [\App\Http\Controllers\Crud\IngredientController::class, 'createIngredient']);
+
+    Route::get('create-produit', [\App\Http\Controllers\Crud\ProduitController::class, 'createPageProduit']);
+    Route::post('create-produit', [\App\Http\Controllers\Crud\ProduitController::class, 'createProduit']);
+
+    Route::get('create-non-consommable', [\App\Http\Controllers\Crud\NonConsommableController::class, 'createPageNonConsommable']);
+    Route::post('create-non-consommable', [\App\Http\Controllers\Crud\NonConsommableController::class, 'createNonConsommable'])->name('create-non-consommable');
+
+    Route::get('modifier-recette/liste-produit', [\App\Http\Controllers\Crud\L_ProduitIngredientController::class, 'showListeProduits']);
+    Route::get('modifier-recette/{code_produit}/update-produit-ingredient', [\App\Http\Controllers\Crud\L_ProduitIngredientController::class, 'updatePageL_ProduitIngredient']);
+    Route::post('modifier-recette/{code_produit}/update-produit-ingredient', [\App\Http\Controllers\Crud\L_ProduitIngredientController::class, 'updateL_ProduitIngredient'])->name('update-categorie');
+
+    # section : mouvements
+    Route::get('entree-produit', [\App\Http\Controllers\Mouvement\EntreeController::class, 'createPageEntreeProduit']);
+    Route::post('entree-produit', [\App\Http\Controllers\Mouvement\EntreeController::class, 'createEntreeProduit'])->name('entree-produit');
+    Route::get('entree-ingredient', [\App\Http\Controllers\Mouvement\EntreeController::class, 'createPageEntreeIngredient']);
+    Route::get('entree-non-consommable', [\App\Http\Controllers\Mouvement\EntreeController::class, 'createPageEntreeNonConsommable']);
+
+    Route::get('sortie-non-consommable', [\App\Http\Controllers\Mouvement\SortieController::class, 'createPageSortieNonConsommable']);
+    Route::get('sortie-ingredient', [\App\Http\Controllers\Mouvement\SortieController::class, 'createPageSortieIngredient']);
+    Route::get('sortie-produit', [\App\Http\Controllers\Mouvement\SortieController::class, 'createPageSortieProduit']);
+    Route::post('sortie-produit', [\App\Http\Controllers\Mouvement\SortieController::class, 'createSortieProduit'])->name('sortie-produit');
+
+    # section : inventaires
+    Route::get('inventaire-produit', [\App\Http\Controllers\Inventaire\InventaireController::class, 'showInventaireProduit']);
+    Route::get('inventaire-ingredient', [\App\Http\Controllers\Inventaire\InventaireController::class, 'showInventaireIngredient']);
+    Route::get('inventaire-non-consommable ', [\App\Http\Controllers\Inventaire\InventaireController::class, 'showInventaireNonConsommable']);
+
+        # inventaire/details
+        Route::get('inventaire/detail-ingredient/{code_produit}', [\App\Http\Controllers\Inventaire\Detail\DetailIngredientController::class, 'showInventaireDetailIngredient']);
+        Route::get('inventaire/detail-ingredient/{code_produit}/mouvement-produit', [\App\Http\Controllers\Inventaire\Detail\DetailProduitIngredientController::class, 'showProduitIngredientDetail']);
+        Route::get('inventaire/detail-produit/{code_produit}', [\App\Http\Controllers\Inventaire\Detail\DetailProduitController::class, 'showInventaireDetailProduit']);
+        Route::get('inventaire/detail-non-consommable/{code_produit}', [\App\Http\Controllers\Inventaire\Detail\DetailNonConsommableController::class, 'showInventaireDetailNonConsommable']);
+
+
+    # section : emplacements
+    Route::get('emplacements', [\App\Http\Controllers\Crud\EmplacementController::class, 'showEmplacements']);
+
+    # section : couts
+    Route::get('couts', [\App\Http\Controllers\Cout\CoutController::class, 'showCoutTypeCategorie']);
+    Route::get('cout/detail-cout/{type_categorie}', [\App\Http\Controllers\Cout\CoutController::class, 'showDetailCoutProduit']);
+    Route::get('cout/detail/recherche', [\App\Http\Controllers\Cout\CoutController::class, 'showRechercheCout']);
+
+    # section : notifications
+    Route::get('actualiser-notification', [\App\Http\Controllers\Actualiser\ActualiserController::class, 'getNotifications']);
+
+
+    Route::get('/', [\App\Http\Controllers\Dashboard\DashboardController::class, 'showDashboard']);
+
+});
+Route::middleware(['auth', 'role:equipe'])->group(function () {
+
+});
+

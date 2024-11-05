@@ -1,0 +1,5 @@
+
+th { cursor: pointer; background-color: #f2f2f2; }
+th:hover {
+    background-color: #E0E7FF;
+}
