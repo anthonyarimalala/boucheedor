@@ -54,6 +54,19 @@
                         </div>
                     @endif
 
+                    <label for="emplacement" class="form-label">Emplacement par défaut: </label>
+                    <select id="emplacement"  name="id_emplacement" class="form-control">
+                        <option></option>
+                        @foreach($emplacements as $emp)
+                            <option value="{{ $emp->id }}">{{ $emp->emplacement }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('id_emplacement'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('id_emplacement') }}
+                        </div>
+                    @endif
+
                     <label for="seuil_reapprovisionnement" class="form-label">Seuil de reapprovisionnement: </label>
                     <input class="form-control" id="seuil_reapprovisionnement" type="number" name="seuil_reapprovisionnement" placeholder="Seuil de reapprovisionnement" value="{{ old('seuil_reapprovisionnement') }}" >
                     @if($errors->has('seuil_reapprovisionnement'))

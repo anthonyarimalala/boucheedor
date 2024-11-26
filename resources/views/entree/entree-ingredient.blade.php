@@ -54,7 +54,14 @@
                                     <td>
                                         <select name="emplacement-{{ $produit->code }}">
                                             @foreach($emplacements as $emplacement)
-                                                <option value="{{ $emplacement->id }}">{{ $emplacement->emplacement }}</option>
+                                                @if($emplacement->id == $produit->id_emplacement_defaut)
+                                                    <option value="{{ $emplacement->id }}">{{ $emplacement->emplacement }}</option>
+                                                @endif
+                                            @endforeach
+                                            @foreach($emplacements as $emplacement)
+                                                @if($emplacement->id != $produit->id_emplacement_defaut)
+                                                    <option value="{{ $emplacement->id }}">{{ $emplacement->emplacement }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </td>

@@ -4,18 +4,21 @@ CREATE TABLE categories(
    type_categorie VARCHAR(30) NOT NULL, -- ingredients, produits, non_consommables
    description TEXT,
    is_default INTEGER,
+    is_deleted INTEGER DEFAULT 0,
    created_at TIMESTAMP,
    updated_at TIMESTAMP
 );
 CREATE TABLE sous_categories(
     id_categorie INTEGER REFERENCES categories(id),
     id_sous_categorie INTEGER REFERENCES categories(id),
+    is_deleted INTEGER DEFAULT 0,
     created_at TIMESTAMP,
     updated_at TIMESTAMP
 );
 CREATE TABLE unites(
    unite VARCHAR(20) PRIMARY KEY,
    signification VARCHAR(20) NOT NULL,
+    is_deleted INTEGER DEFAULT 0,
    created_at TIMESTAMP,
    updated_at TIMESTAMP
 );
@@ -23,6 +26,7 @@ CREATE TABLE emplacements(
      id SERIAL PRIMARY KEY,
      emplacement VARCHAR(100), -- misy neutre anze zavatra vao amboarina
      ordre INTEGER,
+    is_deleted INTEGER DEFAULT 0,
      created_at TIMESTAMP,
      updated_at TIMESTAMP
 );
@@ -37,11 +41,13 @@ CREATE TABLE produits(
   description TEXT,
   id_categorie INTEGER REFERENCES categories(id),
   unite VARCHAR(20) REFERENCES unites(unite),
+  id_emplacement_defaut INTEGER REFERENCES emplacements(id),
   seuil_reapprovisionnement DECIMAL(10, 2),
   transformation_locale INTEGER, -- (0 pour non, 1 pour oui)
   est_stockable INTEGER, -- (0 pour non, 1 pour oui), les plats préparés instantanéments sont non-stockable
   duree_limite INTEGER, -- nombre de date maximal pour stocker le produit
   type_sortie VARCHAR(4), -- fifo lifo
+    is_deleted INTEGER DEFAULT 0,
   created_at TIMESTAMP,
   updated_at TIMESTAMP
 );
@@ -83,6 +89,18 @@ CREATE TABLE notifications(
                               created_at TIMESTAMP,
                               updated_at TIMESTAMP
 );
+CREATE TABLE cuisine_ingredientS(
+  id SERIAL PRIMARY KEY,
+  id_mouvement INTEGER REFERENCES mouvements(id),
+  numero INTEGER NOT NULL,
+  entree FLOAT,
+  sortie FLOAT,
+  id_user INTEGER REFERENCES users(id),
+  id_user_confirmation INTEGER REFERENCES users(id),
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+);
+
 
 CREATE SEQUENCE code_produit_seq;
 CREATE SEQUENCE code_ingredient_seq;

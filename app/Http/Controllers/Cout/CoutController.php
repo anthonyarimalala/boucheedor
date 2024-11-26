@@ -14,7 +14,7 @@ class CoutController extends Controller
     //
     public function showRechercheCout(){
         $data['objets'] = V_Mouvement::where('reste_en_stock','!=', 0)
-            ->where('emplacement', '!=', '')
+            ->where('est_stockable', 1)
             ->get();
         $data['emplacements'] = DB::select('SELECT emplacement FROM emplacements WHERE emplacement != ? GROUP BY emplacement ', ['']);
         $data['categories'] = DB::select('SELECT categorie FROM categories GROUP BY categorie');

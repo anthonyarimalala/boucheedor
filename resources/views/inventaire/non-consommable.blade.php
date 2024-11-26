@@ -8,6 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Non Consommable</h4>
+                <a href="{{ asset('liste/Non_consommable') }}" class="text-primary">Voir tous les non consommables</a>
                 <div class="col-lg-4">
                     <label for="search" class="form-label">Recherche: </label>
                     <input class="form-control" type="text" id="search" placeholder="Rechercher...">

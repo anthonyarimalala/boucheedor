@@ -11,10 +11,20 @@ class InventaireController extends Controller
     //
     public function showInventaireProduit()
     {
-        $data['v_mouvements'] = V_Mouvement::where('type_categorie', 'Produit')
+        if(\Illuminate\Support\Facades\Auth::user()->role == 'admin'){
+            $data['v_mouvements'] = V_Mouvement::where('type_categorie', 'Produit')
             ->where('reste_en_stock','!=',0)
-            ->where('emplacement', '!=', '')
+            ->where('est_stockable', 1)
             ->get();
+        }else if(\Illuminate\Support\Facades\Auth::user()->role == 'cuisinier'){
+            $data['v_mouvements'] = V_Mouvement::where('type_categorie', 'Produit')
+            ->where('reste_en_stock','!=',0)
+            ->where('est_stockable', 1)
+            ->where('transformation_locale', 1)
+            ->get();
+        }
+
+        
         $m_v_mouvement = new V_Mouvement();
         $data['m_v_mouvement'] = $m_v_mouvement;
         return view('inventaire/produit')->with($data);

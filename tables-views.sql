@@ -4,6 +4,7 @@ SELECT
     p.nom ,
     p.description ,
     p.id_categorie ,
+    p.id_emplacement_defaut,
     c.categorie ,
     c.type_categorie ,
     p.unite ,
@@ -14,7 +15,8 @@ SELECT
     p.type_sortie , -- fifo lifo
     p.created_at
 FROM produits p
-         JOIN categories c ON p.id_categorie = c.id ;
+         JOIN categories c ON p.id_categorie = c.id
+         WHERE p.is_deleted = 0   ;
 
 -- Controller/Mouvement/SortieController
 -- -- createPageSortieIngredient
@@ -45,6 +47,8 @@ SELECT
     m.id,
     m.code_produit,
     p.nom,
+    p.transformation_locale,
+    p.est_stockable,
     m.id_emplacement,
     e.emplacement,
     m.entree,

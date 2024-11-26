@@ -7,7 +7,7 @@
                 <h4 class="card-title">Journalier</h4>
                 <div>
                     <form class="row g-3">
-                        <h4>Dates à regarder : </h4>
+                        <h4>Sélectionner les dates pour les graphes : </h4>
                         <div class="col-md-6">
                             <label for="diagramme_debut" class="form-label">Date debut</label>
                             <input type="date" class="form-control" id="diagramme_debut" name="diagramme_debut">
@@ -52,7 +52,7 @@
                     // Configuration du diagramme
                     const ctx = document.getElementById('stockChart').getContext('2d');
                     const stockChart = new Chart(ctx, {
-                        type: 'line', // Type de diagramme (ligne)
+                        type: 'bar', // Type de diagramme (ligne)
                         data: {
                             labels: dates, // Les dates
                             datasets: [{

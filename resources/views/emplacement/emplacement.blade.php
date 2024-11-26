@@ -2,6 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/emplacement/emplacement.css') }}">
 
+
     <div class="content-wrapper">
         <div class="row">
 

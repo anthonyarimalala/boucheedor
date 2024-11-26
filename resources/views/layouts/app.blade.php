@@ -52,8 +52,8 @@
         <div class="navbar-menu-wrapper d-flex align-items-top">
             <ul class="navbar-nav">
                 <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                    <h1 class="welcome-text"><span class="text-black fw-bold">Anthony</span></h1>
-                    <h3 class="welcome-sub-text">Hehehe </h3>
+                    <h1 class="welcome-text"><span class="text-black fw-bold">{{ \Illuminate\Support\Facades\Auth::user()->nom }} </span></h1>
+                    <h3 class="welcome-sub-text">{{ \Illuminate\Support\Facades\Auth::user()->role }} </h3>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -385,6 +385,11 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
 
+
+                @if(\Illuminate\Support\Facades\Auth::user()->role == 'cuisinier' )
+                    
+                @endif
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{asset('/')}}">
                         <i class="mdi mdi-view-dashboard menu-icon"></i>
@@ -399,74 +404,95 @@
                     </a>
                 </li>
 
-                <li class="nav-item nav-category">Rapport</li>
+                @if(\Illuminate\Support\Facades\Auth::user()->role == 'cuisinier' )
+                    <li class="nav-item nav-category">Cuisine</li>
 
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#stock" aria-expanded="false" aria-controls="ui-basic">
-                        <i class="menu-icon mdi mdi-eye"></i>
-                        <span class="menu-title">Rapports</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse" id="stock">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-produit') }}">Produits</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-ingredient') }}">Ingrédients</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-non-consommable') }}">Non Consommable</a></li>
-                        </ul>
-                    </div>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{asset('cuisine-ingredient')}}">
+                            <i class="mdi mdi-carrot menu-icon"></i>
+                            <span class="menu-title">Ingredient</span>
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{asset('couts')}}">
-                        <i class="mdi mdi-cash-marker menu-icon"></i>
-                        <span class="menu-title">Coûts</span>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{asset('/')}}">
+                            <i class="mdi mdi-silverware-fork-knife menu-icon"></i>
+                            <span class="menu-title">Produit</span>
+                        </a>
+                    </li>
+                @endif
+                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin' )
+                    <li class="nav-item nav-category">Rapport</li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#stock" aria-expanded="false" aria-controls="ui-basic">
+                            <i class="menu-icon mdi mdi-eye"></i>
+                            <span class="menu-title">Rapports</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="stock">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-produit') }}">Produits</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-ingredient') }}">Ingrédients</a></li>
+                                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                                    <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-non-consommable') }}">Non Consommable</a></li>
+                                @endif
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{asset('couts')}}">
+                            <i class="mdi mdi-cash-marker menu-icon"></i>
+                            <span class="menu-title">Valeurs</span>
+                        </a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{asset('emplacements')}}">
+                            <i class="mdi mdi-fridge-outline menu-icon"></i>
+                            <span class="menu-title">Emplacements</span>
+                        </a>
+                    </li>
+                @endif
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{asset('emplacements')}}">
-                        <i class="mdi mdi-fridge-outline menu-icon"></i>
-                        <span class="menu-title">Emplacements</span>
-                    </a>
-                </li>
+                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin' )
+                    <li class="nav-item nav-category">Mouvements</li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#entree" aria-expanded="false" aria-controls="ui-basic">
+                            <i class="menu-icon mdi mdi-cart-arrow-down"></i>
+                            <span class="menu-title">Entrée</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="entree">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('entree-produit') }}">Produit</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('entree-ingredient') }}">Ingrédient</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('entree-non-consommable') }}">Non Consommable</a></li>
+                            </ul>
+                        </div>
+                    </li>
 
-                <li class="nav-item nav-category">Inventaire</li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#entree" aria-expanded="false" aria-controls="ui-basic">
-                        <i class="menu-icon mdi mdi-cart-arrow-down"></i>
-                        <span class="menu-title">Entrée</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse" id="entree">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="{{ asset('entree-produit') }}">Produit</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{ asset('entree-ingredient') }}">Ingrédient</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{ asset('entree-non-consommable') }}">Non Consommable</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#sortie" aria-expanded="false" aria-controls="ui-basic">
-                        <i class="menu-icon mdi mdi-cart-arrow-up"></i>
-                        <span class="menu-title">Sortie</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse" id="sortie">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="{{ asset('sortie-produit') }}">Produit</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{ asset('sortie-ingredient') }}">Ingrédient</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{ asset('sortie-non-consommable') }}">Non Consommable</a></li>
-                        </ul>
-                    </div>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#sortie" aria-expanded="false" aria-controls="ui-basic">
+                            <i class="menu-icon mdi mdi-cart-arrow-up"></i>
+                            <span class="menu-title">Sortie</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="sortie">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('sortie-produit') }}">Produit</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('sortie-ingredient') }}">Ingrédient</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('sortie-non-consommable') }}">Non Consommable</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
 
                 <li class="nav-item nav-category">Modifications</li>
 
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#modifications" aria-expanded="false" aria-controls="ui-basic">
                         <i class="menu-icon mdi mdi-pencil"></i>
-                        <span class="menu-title">Recettes</span>
+                        <span class="menu-title">Fiche produit</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="collapse" id="modifications">
@@ -497,6 +523,7 @@
                         </div>
                     </li>
                 @endif
+
             </ul>
         </nav>
         <!-- partial -->

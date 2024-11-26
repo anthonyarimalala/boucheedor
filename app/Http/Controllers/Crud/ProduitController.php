@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Crud;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categorie;
+use App\Models\Emplacement;
 use App\Models\produits\Ingredient;
 use App\Models\produits\Produit;
 use App\Models\table\Unite;
+use App\Models\views\V_Emplacement;
 use Illuminate\Http\Request;
 
 class ProduitController extends Controller
@@ -35,6 +37,7 @@ class ProduitController extends Controller
         $produit->nom = $request->input('nom');
         $produit->description = $request->input('description');
         $produit->id_categorie = $request->input('id_categorie');
+        $produit->id_emplacement_defaut = $request->input('id_emplacement');
         $produit->unite = $request->input('unite');
         $produit->seuil_reapprovisionnement = $request->input('seuil_reapprovisionnement');
         $produit->duree_limite = $request->input('duree_limite');
@@ -49,6 +52,7 @@ class ProduitController extends Controller
 
     public function createPageProduit(){
         $data['categories'] = Categorie::where('type_categorie', 'Produit')->orderBy('is_default', 'desc')->get();
+        $data['emplacements'] = V_Emplacement::where('type_categorie', 'Produit')->get();
         $data['unites'] = Unite::orderBy('unite')->get();
         return view('nouveau/produit')->with($data);
     }

@@ -82,10 +82,20 @@ Route::middleware('auth')->group(function() {
     Route::get('actualiser-notification', [\App\Http\Controllers\Actualiser\ActualiserController::class, 'getNotifications']);
 
 
+    # section : exports
+    Route::get('export-stock', [\App\Http\Controllers\Export\ExportController::class, 'exportExcel']);
+
     Route::get('/', [\App\Http\Controllers\Dashboard\DashboardController::class, 'showDashboard']);
+
+
 
 });
 Route::middleware(['auth', 'role:equipe'])->group(function () {
 
+});
+Route::middleware(['auth', 'role:cuisinier'])->group(function () {
+    Route::get('cuisine-ingredient', [\App\Http\Controllers\Cuisine\CuisineIngredientController::class, 'showInventaireIngredient']);
+    Route::get('cuisine/gestion-ingredient/{id_mouvement}', [\App\Http\Controllers\Cuisine\CuisineIngredientController::class, 'showGestionIngredient']);
+    Route::post('cuisine/gestion-ingredient/diviser', [\App\Http\Controllers\Cuisine\CuisineIngredientController::class, 'diviserIngredient']);
 });
 

@@ -241,7 +241,8 @@ INSERT INTO raison_mouvements(id, type_raison, raison) VALUES
                                                       (20, 'sortie', 'Vente'),
                                                       (21, 'entree', 'DÚplacement'),
                                                       (22, 'sortie', 'Cuisine'),
-                                                      (23, 'sortie', 'PÚrimÚ');
+                                                      (23, 'sortie', 'PÚrimÚ'),
+                                                      (24, 'sortie', 'Autre');
 
 
 INSERT INTO mouvements (code_produit, id_emplacement, entree,  prix_unitaire, date_mouvement, id_raison, created_at, updated_at) VALUES

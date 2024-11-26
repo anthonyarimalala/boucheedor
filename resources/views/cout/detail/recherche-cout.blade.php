@@ -17,7 +17,7 @@
                             <select id="emplacement" class="form-control" name="emplacement">
                                 <option value="0">Tous</option>
                                 @foreach($emplacements as $emp)
-                                    <option value="{{$emp->emplacement}}">{{ $emp->emplacement }}</option>
+                                    <option value="{{ $emp->emplacement }}">{{ $emp->emplacement }}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -25,11 +25,11 @@
                             <select id="categorie" class="form-control" name="categorie">
                                 <option value="0">Tous</option>
                                 @foreach($categories as $cat)
-                                    <option value="{{$cat->categorie}}">{{ $cat->categorie }}</option>
+                                    <option value="{{ $cat->categorie }}">{{ $cat->categorie }}</option>
                                 @endforeach
                             </select>
                         </td>
-                        <td><button type="submit" class="btn btn-primary me-2" style="color: aliceblue">Voir</button></td>
+                        <td><button type="button" class="btn btn-primary me-2" style="color: aliceblue" onclick="filterTable()">Voir</button></td>
                     </tr>
                 </table>
                 <div class="col-lg-4">
@@ -37,7 +37,7 @@
                     <input class="form-control" type="text" list="datalistOptions" id="search" placeholder="Rechercher...">
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped" id="dataTable" >
+                    <table class="table table-striped" id="dataTable">
                         <thead>
                         <tr>
                             <th onclick="trierTableau(0)">Code <i class="mdi mdi-sort menu-icon"></i></th>
@@ -47,34 +47,37 @@
                             <th onclick="trierTableau(4, true)">Prix Total <i class="mdi mdi-sort menu-icon"></i></th>
                             <th onclick="trierTableau(5)">Categorie <i class="mdi mdi-sort menu-icon"></i></th>
                             <th onclick="trierTableau(6)">Emplacement <i class="mdi mdi-sort menu-icon"></i></th>
-
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($objets as $objet)
                             <tr>
-                                <td> {{ $objet->code_produit }}</td>
-                                <td> {{ $objet->nom }}</td>
-                                <td style="text-align: right"> {{ number_format($objet->reste_en_stock, 2, ',', ' ') }}</td>
-                                <td style="text-align: right"> {{ number_format($objet->prix_unitaire, 2, ',', ' ') }} Ariary</td>
-                                <td style="text-align: right"> {{ number_format($objet->prix_total, 2, ',', ' ') }} Ariary</td>
-                                <td> {{ $objet->categorie }}</td>
-                                <td> {{ $objet->emplacement }}</td>
+                                <td>{{ $objet->code_produit }}</td>
+                                <td>{{ $objet->nom }}</td>
+                                <td style="text-align: right">{{ number_format($objet->reste_en_stock, 2, ',', ' ') }}</td>
+                                <td style="text-align: right">{{ number_format($objet->prix_unitaire, 2, ',', ' ') }} Ariary</td>
+                                <td style="text-align: right">{{ number_format($objet->prix_total, 2, ',', ' ') }} Ariary</td>
+                                <td>{{ $objet->categorie }}</td>
+                                <td>{{ $objet->emplacement }}</td>
                             </tr>
                         @endforeach
-
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <th colspan="4" style="text-align: right">Total:</th>
+                            <th id="totalPrix" style="text-align: right">
+                                <p id="prix_total" style="text-align: right; margin: 0;"></p> Ariary
+                            </th>
+                            <th colspan="2"></th>
+                        </tr>
+                        </tfoot>
+
+
                     </table>
                 </div>
             </div>
         </div>
     </div>
     <script src="{{ asset('js/tri-tableau.js') }}" ></script>
-    <script src="{{ asset('js/recherche-tableau.js') }}"></script>
-
-
-
-
-
-
+    <script src="{{ asset('js/cout/cout.js') }}"></script>
 @endsection
