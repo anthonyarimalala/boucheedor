@@ -15,7 +15,13 @@
                             <p class="card-subtitle card-subtitle-dash">{{ $v_mouvement->emplacement }}</p>
                         </div>
                         <div>
-                            <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-knife"></i>Diviser</button>
+                          <button 
+                            class="btn btn-primary btn-lg text-white mb-0 me-0" 
+                            type="button" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#divisionModal">
+                            <i class="mdi mdi-knife"></i> Diviser
+                          </button>
                         </div>
                         @if($errors->has('error'))
                           <div class="alert alert-danger">
@@ -101,46 +107,41 @@
           
         </div>
         <div class="col-lg-4 d-flex flex-column">
-          <form action="{{ asset('cuisine/gestion-ingredient/diviser') }}" method="POST">
-            <div class="row flex-grow">
-              <div class="col-12 grid-margin stretch-card">
-                <div class="card card-rounded">
-                  <div class="card-body">
-                <h4 class="card-title">Division</h4>
-                <input name="id_mouvement" value="{{ $v_mouvement->id }}" hidden>
-                <div class="row">
-                  <label for="diviser" class="form-label">A diviser en: </label>
-                  <input class="form-control" id="diviser" type="number" name="nbr_divise">
-                </div>
-                @if($v_mouvement->unite == 'kg') 
-                  <div class="col-auto">
-                    <span id="unite_en_gramme" class="form-text">
-                      Unité en gramme <input type="checkbox" class="form-check-input" name="unite_en_gramme" value="1" checked>
-                    </span>
+          <div class="modal fade" id="divisionModal" tabindex="-1" aria-labelledby="divisionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form action="{{ asset('cuisine/gestion-ingredient/diviser') }}" method="POST">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="divisionModalLabel">Division</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                @endif
-                
-                @for($i=1; $i<=7; $i++)
-                  <div class="row g-3 align-items-center">
-                    <div class="col-auto">
-                      <label for="part-{{ $i }}" class="col-form-label">Part n°{{ $i }}</label>
+                  <div class="modal-body">
+                    <input name="id_mouvement" value="{{ $v_mouvement->id }}" hidden>
+                    <div class="row">
+                      <label for="diviser" class="form-label">A diviser en:</label>
+                      <input class="form-control" id="diviser" type="number" name="nbr_divise" min="1" max="20">
                     </div>
-                    <div class="col-auto">
-                      <input type="number" step="0.001" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" name="part-{{ $i }}" required>
+                    <div id="dynamic-inputs">
+                      <!-- Les champs d'entrée seront ajoutés ici dynamiquement -->
                     </div>
-                    
+          
+                    @if($v_mouvement->unite == 'kg')
+                      <div class="col-auto">
+                        <span id="unite_en_gramme" class="form-text">
+                          Unité en gramme 
+                          <input type="checkbox" class="form-check-input" name="unite_en_gramme" value="1" checked>
+                        </span>
+                      </div>
+                    @endif
                   </div>
-                @endfor
-                <div class="col-12">
-                  <button class="btn btn-primary" type="submit" style="color: white">Valider</button>
-                </div>
-
-
-              </div>
-                </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit" style="color: white">Valider</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                  </div>
+                </form>
               </div>
             </div>
-          </form>
+          </div>
           <div class="row flex-grow">
             <div class="col-12 grid-margin stretch-card">
               <div class="card card-rounded">
@@ -270,6 +271,47 @@
       </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.getElementById("diviser").addEventListener("input", function () {
+    const nbrDivise = parseInt(this.value);
+    const dynamicInputsContainer = document.getElementById("dynamic-inputs");
+    dynamicInputsContainer.innerHTML = ""; // Réinitialiser les champs
+
+    if (!isNaN(nbrDivise) && nbrDivise > 0) {
+      for (let i = 1; i <= nbrDivise; i++) {
+        // Créer une ligne avec label et input
+        const row = document.createElement("div");
+        row.className = "row g-3 align-items-center";
+
+        const labelDiv = document.createElement("div");
+        labelDiv.className = "col-auto";
+        const label = document.createElement("label");
+        label.setAttribute("for", `part-${i}`);
+        label.className = "col-form-label";
+        label.textContent = `Part n°${i}`;
+        labelDiv.appendChild(label);
+
+        const inputDiv = document.createElement("div");
+        inputDiv.className = "col-auto";
+        const input = document.createElement("input");
+        input.type = "number";
+        input.step = "0.001";
+        input.id = `part-${i}`;
+        input.className = "form-control";
+        input.name = `part-${i}`;
+        input.required = true;
+        inputDiv.appendChild(input);
+
+        row.appendChild(labelDiv);
+        row.appendChild(inputDiv);
+
+        dynamicInputsContainer.appendChild(row);
+      }
+    }
+  });
+  </script>
   <script>
     // Récupérer les éléments d'entrée
     const sortieG = document.getElementById("sortie_g");
@@ -292,6 +334,53 @@
         sortieG.value = (kilograms * 1000).toFixed(0); // Conversion en g
       } else {
         sortieG.value = ""; // Vider si entrée invalide
+      }
+    });
+  </script>
+  <script>
+    // Récupérer l'élément d'entrée pour le nombre de divisions
+    const nbrDiviseInput = document.getElementById("diviser");
+    const dynamicInputsContainer = document.getElementById("dynamic-inputs");
+  
+    // Écouteur d'événement pour le changement de valeur
+    nbrDiviseInput.addEventListener("input", function () {
+      const nbrDivise = parseInt(this.value);
+      dynamicInputsContainer.innerHTML = ""; // Réinitialiser les champs
+  
+      if (!isNaN(nbrDivise) && nbrDivise > 0) {
+        for (let i = 1; i <= nbrDivise; i++) {
+          // Créer un conteneur pour chaque champ
+          const row = document.createElement("div");
+          row.className = "row g-3 align-items-center";
+  
+          // Créer le label
+          const labelDiv = document.createElement("div");
+          labelDiv.className = "col-auto";
+          const label = document.createElement("label");
+          label.setAttribute("for", `part-${i}`);
+          label.className = "col-form-label";
+          label.textContent = `Part n°${i}`;
+          labelDiv.appendChild(label);
+  
+          // Créer l'input
+          const inputDiv = document.createElement("div");
+          inputDiv.className = "col-auto";
+          const input = document.createElement("input");
+          input.type = "number";
+          input.step = "0.001";
+          input.id = `part-${i}`;
+          input.className = "form-control";
+          input.name = `part-${i}`;
+          input.required = true;
+          inputDiv.appendChild(input);
+  
+          // Ajouter le label et l'input dans la ligne
+          row.appendChild(labelDiv);
+          row.appendChild(inputDiv);
+  
+          // Ajouter la ligne au conteneur
+          dynamicInputsContainer.appendChild(row);
+        }
       }
     });
   </script>
