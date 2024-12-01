@@ -12,20 +12,6 @@ class EmplacementController extends Controller
 {
     //
     public function showEmplacements(){
-
-        $data['v_mouvements'] = DB::select('
-            SELECT
-            p.code,
-            e.id AS id_emplacement,
-            e.emplacement,
-            p.nom,
-            COALESCE(m.reste_en_stock, 0) AS reste_en_stock,
-            p.unite
-        FROM emplacements e
-        LEFT JOIN v_mouvements m ON e.id = m.id_emplacement
-        LEFT JOIN produits p ON m.code_produit = p.code
-        WHERE e.emplacement != ?
-        ORDER BY e.emplacement ASC', ['']);
         $data['emplacements'] = Emplacement::all();
         $data['m_emp'] = new Emplacement();
 

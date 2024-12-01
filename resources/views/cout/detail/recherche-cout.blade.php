@@ -29,7 +29,7 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><button type="button" class="btn btn-primary me-2" style="color: aliceblue" onclick="filterTable()">Voir</button></td>
+                       <!-- <td><button type="button" class="btn btn-primary me-2" style="color: aliceblue" onclick="filterTable()">Voir</button></td> -->
                     </tr>
                 </table>
                 <div class="col-lg-4">
@@ -66,7 +66,7 @@
                         <tr>
                             <th colspan="4" style="text-align: right">Total:</th>
                             <th id="totalPrix" style="text-align: right">
-                                <p id="prix_total" style="text-align: right; margin: 0;"></p> Ariary
+                                <span id="prix_total" style="text-align: right; margin: 0;"></span> Ariary
                             </th>
                             <th colspan="2"></th>
                         </tr>

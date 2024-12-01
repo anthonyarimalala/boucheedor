@@ -22,7 +22,7 @@
                     // Configuration du diagramme
                     const ctx = document.getElementById('stockChart').getContext('2d');
                     const stockChart = new Chart(ctx, {
-                        type: 'bar', // Type de diagramme (ligne)
+                        type: 'line', // Type de diagramme (ligne)
                         data: {
                             labels: dates, // Les dates
                             datasets: [{

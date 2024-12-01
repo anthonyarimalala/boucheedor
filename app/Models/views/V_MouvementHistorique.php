@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\cuisine;
+namespace App\Models\views;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CuisineIngredient extends Model
+class V_MouvementHistorique extends Model
 {
     use HasFactory;
-    protected $table = 'cuisine_ingredients';
+    protected $table = 'v_mouvement_historiques';
 }

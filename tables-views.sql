@@ -1,4 +1,4 @@
-CREATE VIEW v_produits AS
+CREATE OR REPLACE VIEW v_produits AS
 SELECT
     p.code ,
     p.nom ,
@@ -12,6 +12,7 @@ SELECT
     p.transformation_locale , -- (0 pour non, 1 pour oui)
     p.est_stockable , -- (0 pour non, 1 pour oui), les plats préparés instantanéments sont non-stockable
     p.duree_limite , -- nombre de date maximal pour stocker le produit
+    p.is_deleted,
     p.type_sortie , -- fifo lifo
     p.created_at
 FROM produits p
@@ -24,22 +25,22 @@ FROM produits p
 CREATE OR REPLACE VIEW v_stocks AS
 SELECT
     m.code_produit,
-    v_p.nom,
+    p.nom,
     AVG(m.prix_unitaire) as prix_unitaire,
-    v_p.id_categorie,
-    v_p.categorie,
-    v_p.type_categorie,
-    v_p.type_sortie,
+    p.id_categorie,
+    c.categorie,
+    c.type_categorie,
+    p.type_sortie,
     m.id_emplacement,
     e.emplacement,
     SUM(m.entree) - SUM(COALESCE(m.sortie, 0)) AS reste,
-    v_p.unite,
+    p.unite,
     (SUM(m.entree) - SUM(COALESCE(m.sortie, 0))) * SUM(m.prix_unitaire)  AS prix_total
 FROM mouvements m
-         JOIN v_produits v_p ON m.code_produit = v_p.code
+         JOIN produits p ON m.code_produit = p.code
+         JOIN categories c ON p.id_categorie = c.id
          JOIN emplacements e ON m.id_emplacement = e.id
-GROUP BY m.code_produit, v_p.nom, v_p.id_categorie, v_p.categorie, v_p.type_categorie, v_p.type_sortie, m.id_emplacement, e.emplacement, v_p.unite;
-
+GROUP BY m.code_produit, p.nom, p.id_categorie, c.categorie, c.type_categorie, p.type_sortie, m.id_emplacement, e.emplacement, p.unite;
 -- Cette vue mets n'a pas de ligne de sortie mais tout de suite le reste en stock du produit
 -- Controllers/Inventaire/InventaireController
 CREATE OR REPLACE VIEW v_mouvements AS
@@ -121,3 +122,46 @@ SELECT
     JOIN produits pi ON pl.ingredient_code_produit = pi.code
     GROUP BY DATE(m.date_mouvement), m.code_produit, pp.nom, pp.unite, pi.unite, pl.ingredient_code_produit, pi.nom;
 
+CREATE VIEW v_cuisine_ingredients AS
+SELECT
+    ci.id_mouvement,
+    ci.numero,
+    SUM(COALESCE(ci.entree, 0)) AS quantite_initiale,
+    SUM(COALESCE(ci.entree, 0) - COALESCE(ci.sortie, 0)) AS stock,
+    e.emplacement
+FROM d_cuisine_ingredients ci
+         JOIN mouvements m ON ci.id_mouvement = m.id
+         JOIN emplacements e ON m.id_emplacement = e.id
+GROUP BY ci.id_mouvement, ci.numero, e.emplacement;
+
+CREATE OR REPLACE VIEW v_cuisine_sortie_non_confirmes AS
+SELECT
+    id_mouvement,
+    nom_produit,
+    numero,
+    id_user,
+    unite,
+    SUM(sortie) AS som_sortie
+FROM d_cuisine_ingredients
+WHERE id_user_confirmation IS NULL AND sortie IS NOT null
+GROUP BY id_mouvement, nom_produit, numero, id_user, unite;
+
+
+CREATE VIEW v_mouvement_historiques AS
+SELECT
+    m.code_produit,
+    p.nom,
+    p.unite,
+    m.id_emplacement,
+    e.emplacement,
+    m.entree,
+    m.sortie,
+    m.id_raison,
+    r.raison,
+    m.prix_unitaire,
+    m.date_mouvement
+FROM mouvements m
+         JOIN emplacements e ON m.id_emplacement = e.id
+         JOIN raison_mouvements r ON m.id_raison = r.id
+         JOIN produits p ON m.code_produit = p.code
+ORDER BY m.date_mouvement DESC;

@@ -1,4 +1,6 @@
-
+DROP VIEW v_mouvement_historiques;
+DROP VIEW v_cuisine_sortie_non_confirmes;
+DROP VIEW v_cuisine_ingredients;
 DROP VIEW v_emplacements;
 DROP VIEW v_mouvements;
 DROP VIEW v_stocks;

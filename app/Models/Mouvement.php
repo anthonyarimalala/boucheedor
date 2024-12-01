@@ -26,7 +26,9 @@ class Mouvement extends Model
     public static function mouvementSortie($code_produit, $id_emplacement, $quantite, $date, $orderBy, $id_raison){
         $v_m_mouvements = V_Mouvement::where('code_produit', $code_produit)
             ->where('id_emplacement', $id_emplacement)
+            ->where('reste_en_stock', '!=', 0)
             ->orderBy('date_mouvement', $orderBy)
+            ->limit(1)
             ->get();
 
         foreach($v_m_mouvements as $m){

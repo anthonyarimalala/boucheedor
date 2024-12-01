@@ -27,7 +27,6 @@ Route::post('register', [ \App\Http\Controllers\Authentification\LoginController
 Route::middleware('auth')->group(function() {
 
     # section : crud de base
-
     Route::get('create-categorie', [\App\Http\Controllers\Crud\CategorieController::class, 'createPageCategorie']);
     Route::post('create-categorie', [\App\Http\Controllers\Crud\CategorieController::class, 'createCategorie'])->name('create-categorie');
 
@@ -43,9 +42,16 @@ Route::middleware('auth')->group(function() {
     Route::get('create-non-consommable', [\App\Http\Controllers\Crud\NonConsommableController::class, 'createPageNonConsommable']);
     Route::post('create-non-consommable', [\App\Http\Controllers\Crud\NonConsommableController::class, 'createNonConsommable'])->name('create-non-consommable');
 
-    Route::get('modifier-recette/liste-produit', [\App\Http\Controllers\Crud\L_ProduitIngredientController::class, 'showListeProduits']);
+    Route::get('modifier-recette/liste-produit-transforme', [\App\Http\Controllers\Crud\L_ProduitIngredientController::class, 'showListeProduits']);
     Route::get('modifier-recette/{code_produit}/update-produit-ingredient', [\App\Http\Controllers\Crud\L_ProduitIngredientController::class, 'updatePageL_ProduitIngredient']);
     Route::post('modifier-recette/{code_produit}/update-produit-ingredient', [\App\Http\Controllers\Crud\L_ProduitIngredientController::class, 'updateL_ProduitIngredient'])->name('update-categorie');
+
+    # section : liste
+    Route::get('liste-produits', [\App\Http\Controllers\Liste\ListeController::class, 'showListeProduits']);
+    Route::get('liste-categories', [\App\Http\Controllers\Liste\ListeController::class, 'showListeCategories']);
+
+    # section : historique
+    Route::get('historique-mouvements', [\App\Http\Controllers\Historique\HistoriqueController::class, 'showHistorique']);
 
     # section : mouvements
     Route::get('entree-produit', [\App\Http\Controllers\Mouvement\EntreeController::class, 'createPageEntreeProduit']);
@@ -97,5 +103,10 @@ Route::middleware(['auth', 'role:cuisinier'])->group(function () {
     Route::get('cuisine-ingredient', [\App\Http\Controllers\Cuisine\CuisineIngredientController::class, 'showInventaireIngredient']);
     Route::get('cuisine/gestion-ingredient/{id_mouvement}', [\App\Http\Controllers\Cuisine\CuisineIngredientController::class, 'showGestionIngredient']);
     Route::post('cuisine/gestion-ingredient/diviser', [\App\Http\Controllers\Cuisine\CuisineIngredientController::class, 'diviserIngredient']);
+    Route::post('cuisine/gestion-ingredient/sortie-part-non-confirme', [\App\Http\Controllers\Cuisine\CuisineIngredientController::class, 'sortiePartNonConfirme']);
+    Route::post('cuisine/gestion-ingredient/sortie-non-confirme', [\App\Http\Controllers\Cuisine\CuisineIngredientController::class, 'sortieNonConfirme']);
+
+    Route::get('cuisine-confirmation', [\App\Http\Controllers\Cuisine\CuisineIngredientController::class, 'showConfirmationSortie']);
+    Route::post('cuisine-confirmation/confirmer', [\App\Http\Controllers\Cuisine\CuisineIngredientController::class, 'confirmerSortie']);
 });
 

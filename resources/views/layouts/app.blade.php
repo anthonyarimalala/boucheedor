@@ -387,7 +387,7 @@
 
 
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'cuisinier' )
-                    
+
                 @endif
 
                 <li class="nav-item">
@@ -405,6 +405,14 @@
                 </li>
 
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'cuisinier' )
+                    <li class="nav-item nav-category">Check</li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{asset('cuisine-confirmation')}}">
+                            <i class="mdi mdi-check-box-multiple-outline menu-icon"></i>
+                            <span class="menu-title">Confirmation de sorties</span>
+                        </a>
+                    </li>
+
                     <li class="nav-item nav-category">Cuisine</li>
 
                     <li class="nav-item">
@@ -420,40 +428,8 @@
                             <span class="menu-title">Produit</span>
                         </a>
                     </li>
-                @endif
-                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin' )
-                    <li class="nav-item nav-category">Rapport</li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#stock" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-eye"></i>
-                            <span class="menu-title">Rapports</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="stock">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-produit') }}">Produits</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-ingredient') }}">Ingrédients</a></li>
-                                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                                    <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-non-consommable') }}">Non Consommable</a></li>
-                                @endif
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{asset('couts')}}">
-                            <i class="mdi mdi-cash-marker menu-icon"></i>
-                            <span class="menu-title">Valeurs</span>
-                        </a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{asset('emplacements')}}">
-                            <i class="mdi mdi-fridge-outline menu-icon"></i>
-                            <span class="menu-title">Emplacements</span>
-                        </a>
-                    </li>
-                @endif
 
+                @endif
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin' )
                     <li class="nav-item nav-category">Mouvements</li>
                     <li class="nav-item">
@@ -485,26 +461,61 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-item nav-category">Rapport</li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#stock" aria-expanded="false" aria-controls="ui-basic">
+                            <i class="menu-icon mdi mdi-eye"></i>
+                            <span class="menu-title">Rapport de stock</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="stock">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-produit') }}">Produits</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-ingredient') }}">Ingrédients</a></li>
+                                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                                    <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-non-consommable') }}">Non Consommable</a></li>
+                                @endif
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            <i class="mdi mdi-chart-line menu-icon"></i>
+                            <span class="menu-title">Statistiques</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{asset('couts')}}">
+                            <i class="mdi mdi-cash-marker menu-icon"></i>
+                            <span class="menu-title">Valeur de stock</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ asset('historique-mouvements') }}">
+                            <i class="mdi mdi-history menu-icon"></i>
+                            <span class="menu-title">Historique</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#liste" aria-expanded="false" aria-controls="ui-basic">
+                            <i class="menu-icon mdi mdi-view-list"></i>
+                            <span class="menu-title">Liste et Modification</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="liste">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{{asset('emplacements')}}">Emplacements</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('liste-produits') }}">Produits</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('liste-categories') }}">Catégories</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('modifier-recette/liste-produit-transforme') }}">Fiche produit</a></li>
+                            </ul>
+                        </div>
+                    </li>
                 @endif
 
-                <li class="nav-item nav-category">Modifications</li>
-
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#modifications" aria-expanded="false" aria-controls="ui-basic">
-                        <i class="menu-icon mdi mdi-pencil"></i>
-                        <span class="menu-title">Fiche produit</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse" id="modifications">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="{{ asset('modifier-recette/liste-produit') }}">Affeter Ingrédients</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                    <li class="nav-item nav-category">Nouveaux</li>
+                    <li class="nav-item nav-category">Ajouts</li>
 
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#insertion" aria-expanded="false" aria-controls="insertion">

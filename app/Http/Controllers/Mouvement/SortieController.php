@@ -17,6 +17,9 @@ class SortieController extends Controller
         $stocks = $request->input('stocks');
         $non_stockables = $request->input('non_stockables');
         $date = $request->input('date');
+        $id_raison = $request->input('id_raison');
+        // print($id_raison);
+
         if ($date == null) $date = Carbon::now();
         if ($non_stockables != null){
             foreach ($non_stockables as $non_stockable => $quantite){
@@ -28,8 +31,9 @@ class SortieController extends Controller
                     $mouvement->entree = $quantite;
                     $mouvement->sortie = $quantite;
                     $mouvement->date_mouvement = $date;
-                    $mouvement->id_raison = 20;
+                    $mouvement->id_raison = $id_raison;
                     $mouvement->save();
+                    print($id_raison);
                 }
             }
         }
@@ -37,11 +41,13 @@ class SortieController extends Controller
             foreach ($stocks as $code => $quantite){ // quantité
                 $split = explode(',', $code); // [0]=code_produit; [1]=id_emplacement
                 if ($quantite != null){
-                    Mouvement::mouvementSortie($split[0], $split[1], $quantite, $date, 'asc', 20); // 20 pour sortie
+                    // print($id_raison);
+                    Mouvement::mouvementSortie($split[0], $split[1], $quantite, $date, 'desc', $id_raison); // 20 pour sortie
                 }
             }
         }
         return back()->with('success', 'Sorties validées');
+
     }
     public function createPageSortieProduit(Request $request){
         $data['v_stocks'] = V_Stock::where('type_categorie', 'Produit')

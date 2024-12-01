@@ -4,7 +4,7 @@ CREATE TABLE categories(
    type_categorie VARCHAR(30) NOT NULL, -- ingredients, produits, non_consommables
    description TEXT,
    is_default INTEGER,
-    is_deleted INTEGER DEFAULT 0,
+   is_deleted INTEGER DEFAULT 0,
    created_at TIMESTAMP,
    updated_at TIMESTAMP
 );
@@ -18,7 +18,7 @@ CREATE TABLE sous_categories(
 CREATE TABLE unites(
    unite VARCHAR(20) PRIMARY KEY,
    signification VARCHAR(20) NOT NULL,
-    is_deleted INTEGER DEFAULT 0,
+   is_deleted INTEGER DEFAULT 0,
    created_at TIMESTAMP,
    updated_at TIMESTAMP
 );
@@ -89,16 +89,19 @@ CREATE TABLE notifications(
                               created_at TIMESTAMP,
                               updated_at TIMESTAMP
 );
-CREATE TABLE cuisine_ingredientS(
-  id SERIAL PRIMARY KEY,
-  id_mouvement INTEGER REFERENCES mouvements(id),
-  numero INTEGER NOT NULL,
-  entree FLOAT,
-  sortie FLOAT,
-  id_user INTEGER REFERENCES users(id),
-  id_user_confirmation INTEGER REFERENCES users(id),
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP
+DROP TABLE d_cuisine_ingredients;
+CREATE TABLE d_cuisine_ingredients(
+        id SERIAL PRIMARY KEY,
+        id_mouvement INTEGER REFERENCES mouvements(id),
+        nom_produit VARCHAR(255),
+        numero INTEGER,
+        entree FLOAT,
+        sortie FLOAT,
+        unite VARCHAR(10),
+        id_user INTEGER REFERENCES users(id),
+        id_user_confirmation INTEGER REFERENCES users(id),
+        created_at TIMESTAMP,
+        updated_at TIMESTAMP
 );
 
 

@@ -31,7 +31,7 @@
                                 Stock <i class="mdi mdi-sort menu-icon"></i>
                             </th>
                             <th>
-                                Dernière entrée
+                                Date entrée
                             </th>
                         </tr>
                         </thead>
