@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function() {
     Route::post('sortie-produit', [\App\Http\Controllers\Mouvement\SortieController::class, 'createSortieProduit'])->name('sortie-produit');
 
     # section : inventaires
+    Route::get('inventaire-tous',[\App\Http\Controllers\Inventaire\InventaireController::class, 'showInventaireTous']);
     Route::get('inventaire-produit', [\App\Http\Controllers\Inventaire\InventaireController::class, 'showInventaireProduit']);
     Route::get('inventaire-ingredient', [\App\Http\Controllers\Inventaire\InventaireController::class, 'showInventaireIngredient']);
     Route::get('inventaire-non-consommable ', [\App\Http\Controllers\Inventaire\InventaireController::class, 'showInventaireNonConsommable']);
@@ -75,6 +76,8 @@ Route::middleware('auth')->group(function() {
         Route::get('inventaire/detail-produit/{code_produit}', [\App\Http\Controllers\Inventaire\Detail\DetailProduitController::class, 'showInventaireDetailProduit']);
         Route::get('inventaire/detail-non-consommable/{code_produit}', [\App\Http\Controllers\Inventaire\Detail\DetailNonConsommableController::class, 'showInventaireDetailNonConsommable']);
 
+    # section : stats
+    Route::get('stat/{code_produit}', [\App\Http\Controllers\Stat\StatistiqueController::class, 'showStat']);
 
     # section : emplacements
     Route::get('emplacements', [\App\Http\Controllers\Crud\EmplacementController::class, 'showEmplacements']);
@@ -88,7 +91,13 @@ Route::middleware('auth')->group(function() {
     Route::get('actualiser-notification', [\App\Http\Controllers\Actualiser\ActualiserController::class, 'getNotifications']);
 
 
-    # section : exports
+    # section : imports & exports
+    Route::get('imports', [\App\Http\Controllers\Import\ImportController::class, 'showImportPage']);
+    Route::post('import-produit', [\App\Http\Controllers\Import\ImportController::class, 'importProduit'])->name('import.produits');
+
+    Route::get('export-produit', [\App\Http\Controllers\Export\ExportController::class, 'exportProduits']);
+
+
     Route::get('export-stock', [\App\Http\Controllers\Export\ExportController::class, 'exportExcel']);
 
     Route::get('/', [\App\Http\Controllers\Dashboard\DashboardController::class, 'showDashboard']);

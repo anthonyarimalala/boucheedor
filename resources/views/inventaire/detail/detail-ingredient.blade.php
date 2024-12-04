@@ -4,7 +4,7 @@
     <div class="col-lg-8 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Journalier</h4>
+                <h4 class="card-title">Variation de stock Journalier</h4>
                 <div>
                     <form class="row g-3">
                         <h4>Sélectionner les dates pour les graphes : </h4>

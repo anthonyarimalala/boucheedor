@@ -11,6 +11,8 @@ class Produit extends Model
     use HasFactory;
     protected $table = 'produits';
     public $incrementing = false;
+    protected $primaryKey = 'code';
+    protected $keyType = 'string';
     protected $fillable = [
         'code',
         'nom',
@@ -25,6 +27,10 @@ class Produit extends Model
     ];
 
 
+    public static function generateCodeNonSeq($prefix, $length, $numero){
+        $formattedSeq = str_pad($numero, $length, '0', STR_PAD_LEFT);
+        return $prefix.$formattedSeq;
+    }
     public static function generateCode($prefix, $length, $sequenceName){
         $nextVal = DB::select("SELECT nextval(?) AS seq", [$sequenceName]);
         $seqValue = $nextVal[0]->seq;

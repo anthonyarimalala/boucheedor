@@ -470,11 +470,27 @@
                         </a>
                         <div class="collapse" id="stock">
                             <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-tous') }}">Tous</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-produit') }}">Produits</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-ingredient') }}">Ingrédients</a></li>
                                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                                     <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-non-consommable') }}">Non Consommable</a></li>
                                 @endif
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#liste" aria-expanded="false" aria-controls="ui-basic">
+                            <i class="menu-icon mdi mdi-view-list"></i>
+                            <span class="menu-title">Liste et Modification</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="liste">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('liste-produits') }}">Produits</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('modifier-recette/liste-produit-transforme') }}">Fiche produit</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{asset('emplacements')}}">Emplacements</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('liste-categories') }}">Catégories</a></li>
                             </ul>
                         </div>
                     </li>
@@ -497,25 +513,17 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#liste" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-view-list"></i>
-                            <span class="menu-title">Liste et Modification</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="liste">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{asset('emplacements')}}">Emplacements</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{ asset('liste-produits') }}">Produits</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{ asset('liste-categories') }}">Catégories</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{ asset('modifier-recette/liste-produit-transforme') }}">Fiche produit</a></li>
-                            </ul>
-                        </div>
-                    </li>
+
                 @endif
 
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                     <li class="nav-item nav-category">Ajouts</li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{asset('imports')}}">
+                                <i class="mdi mdi-database-import menu-icon"></i>
+                                <span class="menu-title">Importer</span>
+                            </a>
+                        </li>
 
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#insertion" aria-expanded="false" aria-controls="insertion">

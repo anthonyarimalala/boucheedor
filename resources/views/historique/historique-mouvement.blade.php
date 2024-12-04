@@ -37,12 +37,13 @@
                     </div>
                     <br>
                     <div class="col-lg-4">
-                        <label for="avec_ingredients" class="form-label">Entrée: </label>
-                        <input id="avec_ingredients" class="form-check-input" type="checkbox" value="entree" name="entree" checked>
-                        <label for="avec_ingredients" class="form-label">Sortie: </label>
-                        <input id="avec_ingredients" class="form-check-input" type="checkbox" value="sortie" name="sortie" checked >
+                        <label for="avec_ingredients_entree" class="form-label">Entrée: </label>
+                        <input id="avec_ingredients_entree" class="form-check-input" type="checkbox" value="entree" name="entree" checked>
+                        <label for="avec_ingredients_sortie" class="form-label">Sortie: </label>
+                        <input id="avec_ingredients_sortie" class="form-check-input" type="checkbox" value="sortie" name="sortie" checked>
                     </div>
 
+                    @if($is_pagined){{ $v_historiques->links('pagination::bootstrap-4') }} @endif
                     <div class="table-responsive">
                         <table class="table table-striped" id="dataTable">
                             <thead>
@@ -59,7 +60,10 @@
                             </thead>
                             <tbody>
                             @foreach($v_historiques as $vh)
-                                <tr class="type-categorie" style="cursor:pointer; background-color: @if($vh->entree!=null) #abfc9f @endif" >
+                                <tr class="type-categorie"
+                                    data-entree="{{ $vh->entree != null ? 'true' : 'false' }}"
+                                    data-sortie="{{ $vh->sortie != null ? 'true' : 'false' }}"
+                                    style="cursor:pointer; background-color: @if($vh->entree!=null) #abfc9f @endif">
                                     <td>{{ \Carbon\Carbon::parse($vh->date_mouvement)->format('d F Y H') }}h</td>
                                     <td>{{ $vh->code_produit }}</td>
                                     <td>{{ $vh->nom }}</td>
@@ -68,14 +72,14 @@
                                     <td style="text-align: right"> {{ number_format($vh->prix_unitaire, 2, ',', ' ') }} Ariary</td>
                                     <td
                                         @if($vh->id_raison == 23) style="background-color: #8be3ff" @endif
-                                        @if($vh->id_raison == 22) style="background-color: #ffa6a6" @endif
+                                    @if($vh->id_raison == 22) style="background-color: #ffa6a6" @endif
                                     >{{ $vh->raison }}</td>
                                     <td>{{ $vh->emplacement }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-                        @if($is_pagined) {{ $v_historiques->links() }} @endif
+                        @if($is_pagined){{ $v_historiques->links('pagination::bootstrap-4') }} @endif
                     </div>
                 </div>
             </div>
@@ -85,7 +89,36 @@
     </div>
 
     <script src="{{ asset('js/tri-tableau.js') }}" ></script>
-    <script src="{{ asset('js/recherche-tableau.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const entreeCheckbox = document.getElementById("avec_ingredients_entree");
+            const sortieCheckbox = document.getElementById("avec_ingredients_sortie");
+            const rows = document.querySelectorAll("#dataTable tbody tr");
+
+            function filterRows() {
+                const showEntree = entreeCheckbox.checked;
+                const showSortie = sortieCheckbox.checked;
+
+                rows.forEach(row => {
+                    const isEntree = row.getAttribute("data-entree") === "true";
+                    const isSortie = row.getAttribute("data-sortie") === "true";
+
+                    if ((showEntree && isEntree) || (showSortie && isSortie)) {
+                        row.style.display = ""; // Afficher
+                    } else {
+                        row.style.display = "none"; // Masquer
+                    }
+                });
+            }
+
+            // Ajouter des événements aux checkboxes
+            entreeCheckbox.addEventListener("change", filterRows);
+            sortieCheckbox.addEventListener("change", filterRows);
+
+            // Appliquer le filtre au chargement
+            filterRows();
+        });
+    </script>
 
 
 

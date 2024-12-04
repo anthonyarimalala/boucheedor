@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 class InventaireController extends Controller
 {
     //
+    public function showInventaireTous(){
+        $data['v_mouvements'] = V_Mouvement::where('reste_en_stock','!=',0)
+            ->where('est_stockable', 1)
+            ->get();
+        $m_v_mouvement = new V_Mouvement();
+        $data['m_v_mouvement'] = $m_v_mouvement;
+        return view('inventaire/tous')->with($data);
+    }
     public function showInventaireProduit()
     {
         if(\Illuminate\Support\Facades\Auth::user()->role == 'admin'){
@@ -24,7 +32,7 @@ class InventaireController extends Controller
             ->get();
         }
 
-        
+
         $m_v_mouvement = new V_Mouvement();
         $data['m_v_mouvement'] = $m_v_mouvement;
         return view('inventaire/produit')->with($data);

@@ -1,7 +1,7 @@
 CREATE TABLE categories(
    id SERIAL PRIMARY KEY,
-   categorie VARCHAR(30) NOT NULL,
-   type_categorie VARCHAR(30) NOT NULL, -- ingredients, produits, non_consommables
+   categorie VARCHAR(50) NOT NULL,
+   type_categorie VARCHAR(50) NOT NULL, -- ingredients, produits, non_consommables
    description TEXT,
    is_default INTEGER,
    is_deleted INTEGER DEFAULT 0,
@@ -32,7 +32,7 @@ CREATE TABLE emplacements(
 );
 CREATE TABLE l_emplacement_type_categories(
     id_emplacement INTEGER REFERENCES emplacements(id),
-    type_categorie VARCHAR(30)
+    type_categorie VARCHAR(50)
 );
 
 CREATE TABLE produits(
@@ -104,6 +104,21 @@ CREATE TABLE d_cuisine_ingredients(
         updated_at TIMESTAMP
 );
 
+DROP TABLE import_produits;
+CREATE TABLE import_produits(
+  id SERIAL PRIMARY KEY ,
+  code VARCHAR(20) ,
+  nom VARCHAR(255) NOT NULL ,
+  description	TEXT,
+  categorie VARCHAR(50) NOT NULL,
+  unite	VARCHAR(20) NOT NULL,
+  emplacement_par_defaut VARCHAR(100) NOT NULL,
+  seuil_approvisionnement DECIMAL(10, 2) ,
+  transformation_locale INTEGER ,
+  stockable INTEGER NOT NULL,
+  jours_limite_dans_le_stock INTEGER ,
+  type VARCHAR(30) NOT NULL
+);
 
 CREATE SEQUENCE code_produit_seq;
 CREATE SEQUENCE code_ingredient_seq;

@@ -1,3 +1,4 @@
+DROP VIEW v_produits;
 CREATE OR REPLACE VIEW v_produits AS
 SELECT
     p.code ,
@@ -5,6 +6,7 @@ SELECT
     p.description ,
     p.id_categorie ,
     p.id_emplacement_defaut,
+    e.emplacement,
     c.categorie ,
     c.type_categorie ,
     p.unite ,
@@ -17,6 +19,7 @@ SELECT
     p.created_at
 FROM produits p
          JOIN categories c ON p.id_categorie = c.id
+         JOIN emplacements e ON p.id_emplacement_defaut = e.id
          WHERE p.is_deleted = 0   ;
 
 -- Controller/Mouvement/SortieController
@@ -93,8 +96,8 @@ SELECT
 FROM mouvements m
          JOIN produits p ON m.code_produit = p.code;
 
--- Pour montrer le diagramme
-CREATE OR REPLACE VIEW v_mouvement_inventaire_detail_diagrammes AS
+-- Pour montrer le diagramme de stock
+CREATE OR REPLACE VIEW v_mouvement_stat_stock_diagrammes AS
 SELECT code_produit, nom, stock, unite, date FROM (SELECT
     m.code_produit,
     p.nom,
@@ -106,7 +109,7 @@ SELECT code_produit, nom, stock, unite, date FROM (SELECT
     GROUP BY m.code_produit, p.nom, p.unite, m.date_mouvement, DATE(m.date_mouvement)) GROUP BY code_produit, nom, stock, unite, date;
 
 -- Pour montrer les produits faits à partir des ingrédients à un moment donné
-CREATE VIEW v_mouvement_inventaire_diagramme_produit_ingredients AS
+CREATE OR REPLACE VIEW v_mouvement_produit_ingredients AS
 SELECT
     m.code_produit,
     pp.nom,

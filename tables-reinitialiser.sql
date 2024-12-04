@@ -6,9 +6,11 @@ DROP VIEW v_mouvements;
 DROP VIEW v_stocks;
 DROP VIEW v_produits;
 DROP VIEW v_mouvement_inventaire_details;
-DROP VIEW v_mouvement_inventaire_diagramme_produit_ingredients;
+DROP VIEW v_mouvement_produit_ingredients;
+DROP VIEW v_mouvement_stat_stock_diagrammes;
 DROP VIEW v_mouvement_inventaire_detail_diagrammes;
 
+DROP TABLE import_produits;
 DROP TABLE cuisine_ingredientS;
 DROP TABLE notifications;
 DROP TABLE mouvements;

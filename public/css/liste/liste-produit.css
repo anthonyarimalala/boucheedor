@@ -1,0 +1,6 @@
+.col-nom {
+    max-width: 160px; /* Limite la largeur de la colonne */
+    white-space: nowrap; /* Empêche le texte de s'étendre sur plusieurs lignes */
+    overflow: hidden; /* Cache le texte qui dépasse */
+    text-overflow: ellipsis; /* Ajoute "..." pour indiquer que le texte a été tronqué */
+}

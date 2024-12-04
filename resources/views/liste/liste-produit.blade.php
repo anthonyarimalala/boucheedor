@@ -2,6 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/emplacement/emplacement.css') }}">
     <link rel="stylesheet" href="{{ asset('css/cout/cout.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/liste/liste-produit.css') }}">
 
 
 
@@ -12,6 +13,9 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Liste des tous les articles</h4>
+                    <a href="{{ asset('export-produit') }}" class="btn btn-success btn-sm position-absolute" style="top: 10px; right: 10px;">
+                        <i class="mdi mdi-file-excel"></i> Exporter
+                    </a>
                     <div class="col-lg-4">
                         <label for="search" class="form-label">Recherche: </label>
                         <input class="form-control" type="text" list="datalistOptions" id="search" placeholder="Rechercher..." autocomplete="off">
@@ -46,15 +50,19 @@
                             <tbody>
                             @foreach($v_produits as $vp)
                                 <tr class="type-categorie" style="cursor:pointer;">
-                                    <td>{{ $vp->type_categorie }}</td>
-                                    <td>{{ $vp->code }}</td>
-                                    <td>{{ $vp->nom }}</td>
-                                    <td>{{ $vp->categorie }}</td>
-                                    <td>@if($vp->seuil_reapprovisionnement != 0) {{ $vp->seuil_reapprovisionnement }} {{ $vp->unite }} @endif</td>
-                                    <td>{{ $vp->duree_limite }} Jours</td>
+                                    <td onclick="window.location.href='stat/{{ $vp->code }}';">{{ $vp->type_categorie }}</td>
+                                    <td onclick="window.location.href='stat/{{ $vp->code }}';">{{ $vp->code }}</td>
+                                    <td onclick="window.location.href='stat/{{ $vp->code }}';" class="col-nom">{{ $vp->nom }}</td>
+                                    <td onclick="window.location.href='stat/{{ $vp->code }}';">{{ $vp->categorie }}</td>
+                                    <td onclick="window.location.href='stat/{{ $vp->code }}';">@if($vp->seuil_reapprovisionnement != 0) {{ $vp->seuil_reapprovisionnement }} {{ $vp->unite }} @endif</td>
+                                    <td onclick="window.location.href='stat/{{ $vp->code }}';">@if($vp->est_stockable == 1 && $vp->duree_limite != 0) {{ $vp->duree_limite }} Jours @endif </td>
                                     <td>
-                                        <label class="badge badge-primary"><i class="mdi mdi-pen"></i></label>
-                                        <label class="badge badge-danger"><i class="mdi mdi-delete"></i></label>
+                                        <button class="btn btn-primary" title="Modifier" data-toggle="tooltip" data-placement="top">
+                                            <i class="mdi mdi-pen text-white"></i>
+                                        </button>
+                                        <button class="btn btn-danger" title="Supprimer" data-toggle="tooltip" data-placement="top" onclick="confirmDelete(event)">
+                                            <i class="mdi mdi-delete text-white"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -69,46 +77,7 @@
     </div>
 
     <script src="{{ asset('js/tri-tableau.js') }}" ></script>
-    <script>
-        // Écouter les changements des checkbox et du champ de recherche
-        document.querySelectorAll('.form-check-input').forEach(checkbox => {
-            checkbox.addEventListener('change', filterAndSearchTable);
-        });
-
-        document.getElementById('search').addEventListener('input', filterAndSearchTable);
-
-        function filterAndSearchTable() {
-            // Obtenir les valeurs des checkbox cochées
-            const checkedValues = Array.from(document.querySelectorAll('.form-check-input:checked'))
-                .map(checkbox => checkbox.value);
-
-            // Récupérer la valeur de recherche
-            const searchValue = document.getElementById('search').value.trim().toLowerCase();
-
-            // Sélectionner toutes les lignes du tableau
-            const rows = document.querySelectorAll('#dataTable tbody tr');
-
-            rows.forEach(row => {
-                // Récupérer le type de catégorie et le nom de la ligne
-                const typeCategorie = row.querySelector('td:nth-child(1)').textContent.trim();
-                const nomProduit = row.querySelector('td:nth-child(3)').textContent.trim().toLowerCase();
-
-                // Vérifier si la ligne correspond à la recherche et aux checkbox cochées
-                const matchesType = checkedValues.includes(typeCategorie);
-                const matchesSearch = !searchValue || nomProduit.includes(searchValue);
-
-                // Afficher ou masquer la ligne en fonction des critères
-                if (matchesType && matchesSearch) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        // Filtrer initialement le tableau au chargement de la page
-        document.addEventListener('DOMContentLoaded', filterAndSearchTable);
-    </script>
+    <script src="{{ asset('js/liste/liste-produit.js') }}"></script>
 
 
 
