@@ -3,12 +3,15 @@
 
     <link rel="stylesheet" href="{{ asset('css/emplacement/emplacement.css') }}">
     <link rel="stylesheet" href="{{ asset('css/cout/cout.css') }}">
+    <!-- JS Bootstrap -->
+    <script src=" {{ asset('bootstrap-offline-docs-5.1/dist/js/bootstrap.bundle.min.js') }}"></script>
+
     <div class="col-lg-12 grid-margin stretch-card">
 
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Rapport de stock </h4>
-                <a href="" class="btn btn-success btn-sm position-absolute" style="top: 10px; right: 10px;">
+                <a href="#" class="btn btn-success btn-sm position-absolute" style="top: 10px; right: 10px;" data-bs-toggle="modal" data-bs-target="#exportPopup">
                     <i class="mdi mdi-file-excel"></i> Exporter
                 </a>
                 <div class="col-lg-4">
@@ -82,6 +85,31 @@
 
                         </tbody>
                     </table>
+                </div>
+                <!-- Popup Modal -->
+                <div class="modal fade" id="exportPopup" tabindex="-1" aria-labelledby="exportPopupLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exportPopupLabel">Options d'exportation</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-lg-12">
+                                    <label for="produit" class="form-label">Produit:</label>
+                                    <input id="produit" class="form-check-input" type="checkbox" value="Produit" name="Produit" checked>
+                                    <label for="ingredient" class="form-label">Ingrédient:</label>
+                                    <input id="ingredient" class="form-check-input" type="checkbox" value="Ingredient" name="Ingredient" checked>
+                                    <label for="non-consommable" class="form-label">Non Consommable:</label>
+                                    <input id="non-consommable" class="form-check-input" type="checkbox" value="Non_consommable" name="Non_consommable" checked>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <button type="button" class="btn btn-primary">Valider</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

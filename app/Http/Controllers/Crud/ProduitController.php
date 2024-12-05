@@ -10,11 +10,25 @@ use App\Models\produits\Produit;
 use App\Models\table\Unite;
 use App\Models\views\V_Emplacement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProduitController extends Controller
 {
     //
 
+    public function updateProduit(Request $request){
+        $code_produit = $request->input('code');
+        $id_categorie = $request->input('id_categorie');
+        $unite = $request->input('unite');
+        $id_emplacement = $request->input('id_emplacement');
+        $seuil_reapprovisionnement = $request->input('seuil_reapprovisionnement');
+        $duree_limite = $request->input('duree_limite');
+
+        DB::update('UPDATE produits SET id_categorie=?, unite=?, id_emplacement_defaut=?, seuil_reapprovisionnement=?, duree_limite=? WHERE code=?',
+            [$id_categorie, $unite, $id_emplacement, $seuil_reapprovisionnement, $duree_limite, $code_produit]);
+
+        return back()->with('success', 'Produit mis à jour avec succès!');
+    }
 
     public function createProduit(Request $request){
         $validated = $request->validate([

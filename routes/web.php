@@ -50,6 +50,11 @@ Route::middleware('auth')->group(function() {
     Route::get('liste-produits', [\App\Http\Controllers\Liste\ListeController::class, 'showListeProduits']);
     Route::get('liste-categories', [\App\Http\Controllers\Liste\ListeController::class, 'showListeCategories']);
 
+        # modifier
+        Route::get('liste-produit/modifier/{code}', [\App\Http\Controllers\Liste\ListeController::class, 'getProduitDetails']);
+        Route::post('update-produit', [\App\Http\Controllers\Crud\ProduitController::class, 'updateProduit']);
+        Route::post('show-produit-detail', [\App\Http\Controllers\Liste\ListeController::class, 'showProduitDetails']);
+
     # section : historique
     Route::get('historique-mouvements', [\App\Http\Controllers\Historique\HistoriqueController::class, 'showHistorique']);
 
