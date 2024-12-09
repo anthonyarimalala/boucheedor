@@ -72,7 +72,7 @@ FROM mouvements m
          JOIN produits p ON m.code_produit = p.code
          JOIN categories c ON p.id_categorie = c.id
          JOIN emplacements e ON m.id_emplacement = e.id
-WHERE m.entree IS NOT null;
+WHERE m.entree IS NOT null AND p.is_deleted != 1 AND p.est_stockable = 1;
 
 CREATE VIEW v_emplacements AS
 SELECT

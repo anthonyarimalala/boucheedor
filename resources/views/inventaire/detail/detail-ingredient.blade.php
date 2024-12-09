@@ -43,21 +43,48 @@
 
                     // Récupérer les données du backend (Laravel)
                     const diagrams = @json($diagrams);
-                    const codeProduit = diagrams[0]?.code_produit; // Prendre le code_produit de l'un des éléments
 
-                    // Extraire les dates et les stocks
-                    const dates = diagrams.map(d => d.date);
-                    const stocks = diagrams.map(d => d.stock);
+                    // Trier les données par date (du plus ancien au plus récent)
+                    diagrams.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                    // Obtenir la dernière date
+                    const lastDate = new Date(diagrams[diagrams.length - 1].date);
+
+                    // Générer une séquence de 7 jours à partir de la dernière date
+                    const dateRange = [];
+                    for (let i = 0; i < 30; i++) {
+                        const date = new Date(lastDate);
+                        date.setDate(lastDate.getDate() - i); // Décrémente d'un jour à chaque itération
+                        dateRange.push(date.toISOString().split('T')[0]); // Format 'YYYY-MM-DD'
+                    }
+
+                    // Inverser la séquence pour commencer par la première date
+                    dateRange.reverse(); // L'ordre devient du plus ancien au plus récent
+
+                    // Initialiser le tableau des stocks
+                    let stocks = [];
+                    let lastStock = 0;
+
+                    // Remplir les stocks pour chaque date
+                    dateRange.forEach(date => {
+                        const entry = diagrams.find(d => d.date === date); // Chercher l'entrée correspondant à la date
+                        if (entry) {
+                            lastStock = entry.stock; // Met à jour lastStock avec le stock trouvé pour la date
+                            stocks.push(lastStock); // Ajoute le stock trouvé
+                        } else {
+                            stocks.push(lastStock); // Si pas de stock trouvé, utilise la dernière valeur (lastStock)
+                        }
+                    });
 
                     // Configuration du diagramme
                     const ctx = document.getElementById('stockChart').getContext('2d');
                     const stockChart = new Chart(ctx, {
                         type: 'line', // Type de diagramme (ligne)
                         data: {
-                            labels: dates, // Les dates
+                            labels: dateRange, // Les 7 dernières dates (ordre du plus ancien au plus récent)
                             datasets: [{
-                                label: '@if(isset($details[0])) Stock de {{ $details[0]->nom }} @endif' ,
-                                data: stocks, // Les stocks
+                                label: '@if(isset($details[0])) Stock de {{ $details[0]->nom }} @endif',
+                                data: stocks, // Les stocks correspondants (0 si pas de données)
                                 borderColor: 'rgba(75, 192, 192, 1)', // Couleur de la ligne
                                 backgroundColor: 'rgba(75, 192, 192, 0.2)', // Couleur de remplissage
                                 borderWidth: 2
@@ -68,23 +95,23 @@
                                 y: {
                                     beginAtZero: true // Démarrer l'axe Y à 0
                                 }
-                            }
-                            ,
+                            },
                             onClick: (event, elements) => {
                                 if (elements.length > 0) {
                                     const index = elements[0].index;
                                     const inputDateDebut = document.getElementById('date_debut').value;
                                     const inputDateFin = document.getElementById('date_fin').value;
 
-
                                     if(inputDateDebut === "")
-                                        document.getElementById('date_debut').value = dates[index];
+                                        document.getElementById('date_debut').value = dateRange[index];
                                     else
-                                        document.getElementById('date_fin').value = dates[index];
+                                        document.getElementById('date_fin').value = dateRange[index];
                                 }
                             }
                         }
                     });
+
+
                 </script>
 
             </div>

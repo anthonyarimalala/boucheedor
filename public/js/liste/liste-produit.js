@@ -84,12 +84,14 @@ function showEditModal(button) {
 function confirmDelete(event) {
     event.preventDefault(); // Empêche l'action par défaut (si c'est un lien ou un formulaire)
 
+
     // Boîte de confirmation native
     var result = confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');
 
     if (result) {
         // Si l'utilisateur confirme, effectuer l'action de suppression (par exemple, envoyer un formulaire ou une requête Ajax)
-        alert('Élément supprimé');
+        //window.location.href=`#/${productId}`;
+        event.target.closest('form').submit();
     } else {
         // Si l'utilisateur annule, ne rien faire
         alert('Suppression annulée');

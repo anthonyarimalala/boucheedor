@@ -63,7 +63,7 @@
                                 <tr class="type-categorie"
                                     data-entree="{{ $vh->entree != null ? 'true' : 'false' }}"
                                     data-sortie="{{ $vh->sortie != null ? 'true' : 'false' }}"
-                                    style="cursor:pointer; background-color: @if($vh->entree!=null) #abfc9f @endif">
+                                    style="cursor:pointer; background-color: @if($vh->entree!=null && $vh->sortie==null) #abfc9f @endif">
                                     <td>{{ \Carbon\Carbon::parse($vh->date_mouvement)->format('d F Y H') }}h</td>
                                     <td>{{ $vh->code_produit }}</td>
                                     <td>{{ $vh->nom }}</td>
@@ -71,8 +71,8 @@
                                     <td>@if($vh->sortie!=null) {{ number_format($vh->sortie, 2, ',', ' ')  }} {{ $vh->unite }} @endif</td>
                                     <td style="text-align: right"> {{ number_format($vh->prix_unitaire, 2, ',', ' ') }} Ariary</td>
                                     <td
-                                        @if($vh->id_raison == 23) style="background-color: #8be3ff" @endif
-                                    @if($vh->id_raison == 22) style="background-color: #ffa6a6" @endif
+                                        @if($vh->id_raison == 23) style="background-color: #ffa6a6" @endif
+                                    @if($vh->id_raison == 22) style="background-color: #8be3ff" @endif
                                     >{{ $vh->raison }}</td>
                                     <td>{{ $vh->emplacement }}</td>
                                 </tr>

@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 class ListeController extends Controller
 {
     //
+
+
     public function showProduitDetails(Request $request){
         $code = $request->input('code');
         $v_produit = V_Produit::where('code', $code)->first();

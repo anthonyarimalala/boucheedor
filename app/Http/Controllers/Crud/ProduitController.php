@@ -16,6 +16,16 @@ class ProduitController extends Controller
 {
     //
 
+    public function deleteProduit(Request $request){
+        $code_produit = $request->input('code_produit');
+        $produit = Produit::where('code', $code_produit)->first();
+        if (!$produit) return back()->withErrors([
+            'produit_non_touvé' => 'Le produit est introuvable',
+        ]);
+        $produit->is_deleted = 1;
+        $produit->save();
+        return back()->with('success', 'Produit supprimé avec succès');
+    }
     public function updateProduit(Request $request){
         $code_produit = $request->input('code');
         $id_categorie = $request->input('id_categorie');

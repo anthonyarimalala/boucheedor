@@ -77,9 +77,16 @@
                                                 <i class="mdi mdi-pen text-white"></i>
                                             </button>
 
-                                        <button class="btn btn-danger" title="Supprimer" data-toggle="tooltip" data-placement="top" onclick="confirmDelete(event)">
-                                            <i class="mdi mdi-delete text-white"></i>
-                                        </button>
+                                        <!-- Formulaire de suppression -->
+                                        <form action="{{ asset('delete-produit') }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            <input type="hidden" name="code_produit" value="{{ $vp->code }}">
+                                            <button class="btn btn-danger" title="Supprimer" data-toggle="tooltip" data-placement="top" onclick="return confirmDelete(event)">
+                                                <i class="mdi mdi-delete text-white"></i>
+                                            </button>
+                                        </form>
+
+
                                     </td>
                                 </tr>
                             @endforeach

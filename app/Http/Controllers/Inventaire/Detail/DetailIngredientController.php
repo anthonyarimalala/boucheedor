@@ -22,7 +22,7 @@ class DetailIngredientController extends Controller
                 FROM v_mouvement_inventaire_detail_diagrammes
                 WHERE code_produit = ?
                 ORDER BY date DESC
-                LIMIT 7
+                LIMIT 30
                 ) AS sous_requete
                 WHERE date >= ? AND date <= ?
                 ORDER BY date ASC
@@ -35,7 +35,7 @@ class DetailIngredientController extends Controller
                 FROM v_mouvement_inventaire_detail_diagrammes
                 WHERE code_produit = ?
                 ORDER BY date DESC
-                LIMIT 7
+                LIMIT 30
                 ) AS sous_requete
                 ORDER BY date ASC
                 "), [$code_produit]);

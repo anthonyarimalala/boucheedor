@@ -55,6 +55,9 @@ Route::middleware('auth')->group(function() {
         Route::post('update-produit', [\App\Http\Controllers\Crud\ProduitController::class, 'updateProduit']);
         Route::post('show-produit-detail', [\App\Http\Controllers\Liste\ListeController::class, 'showProduitDetails']);
 
+        # supprimer
+        Route::post('delete-produit', [\App\Http\Controllers\Crud\ProduitController::class, 'deleteProduit']);
+
     # section : historique
     Route::get('historique-mouvements', [\App\Http\Controllers\Historique\HistoriqueController::class, 'showHistorique']);
 
@@ -101,6 +104,7 @@ Route::middleware('auth')->group(function() {
     Route::post('import-produit', [\App\Http\Controllers\Import\ImportController::class, 'importProduit'])->name('import.produits');
 
     Route::get('export-produit', [\App\Http\Controllers\Export\ExportController::class, 'exportProduits']);
+    Route::get('export-rapport', [\App\Http\Controllers\Export\ExportController::class, 'exportRapports']);
 
 
     Route::get('export-stock', [\App\Http\Controllers\Export\ExportController::class, 'exportExcel']);
