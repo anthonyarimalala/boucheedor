@@ -56,8 +56,9 @@ class ProduitController extends Controller
                 'est_stockable' => 'required',
             ]);
         }
+        $max_P = DB::select("SELECT COALESCE(MAX(SUBSTRING(code FROM '[0-9]+')::INTEGER), 0) AS max_code FROM produits WHERE code LIKE 'P%'")[0]->max_code;
         $produit = new Produit();
-        $produit->code = Produit::generateCode("P", 4, 'code_produit_seq');
+        $produit->code = Produit::generateCodeNonSeq("P", 4, $max_P+1) ;
         $produit->nom = $request->input('nom');
         $produit->description = $request->input('description');
         $produit->id_categorie = $request->input('id_categorie');

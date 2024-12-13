@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function() {
     # section : liste
     Route::get('liste-produits', [\App\Http\Controllers\Liste\ListeController::class, 'showListeProduits']);
     Route::get('liste-categories', [\App\Http\Controllers\Liste\ListeController::class, 'showListeCategories']);
+    Route::get('liste-emplacements', [\App\Http\Controllers\Liste\ListeController::class, 'showListeEmplacements']);
 
         # modifier
         Route::get('liste-produit/modifier/{code}', [\App\Http\Controllers\Liste\ListeController::class, 'getProduitDetails']);
@@ -57,9 +58,12 @@ Route::middleware('auth')->group(function() {
 
         # supprimer
         Route::post('delete-produit', [\App\Http\Controllers\Crud\ProduitController::class, 'deleteProduit']);
+        Route::post('delete-categorie', [\App\Http\Controllers\Crud\CategorieController::class, 'deleteCategorie']);
+        Route::post('delete-emplacement', [\App\Http\Controllers\Crud\EmplacementController::class, 'deleteEmplacement']);
 
     # section : historique
     Route::get('historique-mouvements', [\App\Http\Controllers\Historique\HistoriqueController::class, 'showHistorique']);
+    Route::get('mouvement/{id_mouvement}', [\App\Http\Controllers\Historique\HistoriqueController::class, 'showMouvement'])->name('mouvement.show');;
 
     # section : mouvements
     Route::get('entree-produit', [\App\Http\Controllers\Mouvement\EntreeController::class, 'createPageEntreeProduit']);
@@ -87,8 +91,6 @@ Route::middleware('auth')->group(function() {
     # section : stats
     Route::get('stat/{code_produit}', [\App\Http\Controllers\Stat\StatistiqueController::class, 'showStat']);
 
-    # section : emplacements
-    Route::get('emplacements', [\App\Http\Controllers\Crud\EmplacementController::class, 'showEmplacements']);
 
     # section : couts
     Route::get('couts', [\App\Http\Controllers\Cout\CoutController::class, 'showCoutTypeCategorie']);
@@ -102,6 +104,7 @@ Route::middleware('auth')->group(function() {
     # section : imports & exports
     Route::get('imports', [\App\Http\Controllers\Import\ImportController::class, 'showImportPage']);
     Route::post('import-produit', [\App\Http\Controllers\Import\ImportController::class, 'importProduit'])->name('import.produits');
+    Route::post('import-fiche-produit', [\App\Http\Controllers\Import\ImportController::class, 'importFicheProduit'])->name('import.fiche.produit');
 
     Route::get('export-produit', [\App\Http\Controllers\Export\ExportController::class, 'exportProduits']);
     Route::get('export-rapport', [\App\Http\Controllers\Export\ExportController::class, 'exportRapports']);

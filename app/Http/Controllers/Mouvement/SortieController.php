@@ -32,6 +32,7 @@ class SortieController extends Controller
                     $mouvement->sortie = $quantite;
                     $mouvement->date_mouvement = $date;
                     $mouvement->id_raison = $id_raison;
+                    $mouvement->is_validate = 0;
                     $mouvement->save();
                     print($id_raison);
                 }

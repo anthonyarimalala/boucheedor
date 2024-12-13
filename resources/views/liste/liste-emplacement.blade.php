@@ -18,47 +18,41 @@
                             @foreach($emplacements as $emplacement)
                                 <option value="{{ $emplacement->emplacement }}">
                             @endforeach
-
                         </datalist>
                     </div>
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
                     <div class="table-responsive">
                         <table class="table" id="dataTable">
                             <thead>
                             <tr>
+                                <th onclick="trierTableau(1)">Id <i class="mdi mdi-sort menu-icon"></i></th>
                                 <th onclick="trierTableau(0)">Emplacement <i class="mdi mdi-sort menu-icon"></i></th>
-                                <th onclick="trierTableau(1)">Code <i class="mdi mdi-sort menu-icon"></i></th>
-                                <th onclick="trierTableau(2)">Produit <i class="mdi mdi-sort menu-icon"></i></th>
-                                <th onclick="trierTableau(3, true)">Quantité <i class="mdi mdi-sort menu-icon"></i></th>
-                                <th onclick="trierTableau(4)">Unité <i class="mdi mdi-sort menu-icon"></i></th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @php
-                                $previousEmplacement = null;
-                                $couleur1 = '#c5d7f2';
-                                $couleur2 = '#96b2fb';
-                                $couleur = $couleur1;
-                            @endphp
-                            @foreach($v_mouvements as $v_m)
-                                @php
-                                    $currentEmplacement = $v_m->id_emplacement;
-                                    $couleur = $m_emp->listColor($previousEmplacement, $currentEmplacement, $couleur, $couleur1, $couleur2);
-                                @endphp
+                            @foreach($emplacements as $emp)
+                                <tr>
+                                    <td>{{ $emp->id }}</td>
+                                    <td>{{ $emp->emplacement }}</td>
+                                    <td>
+                                        <form action="{{ asset('delete-emplacement') }}" method="POST" style="display:inline;" onsubmit="return confirmDeleteEmplacement(event, '{{ $emp->emplacement }}')">
+                                            @csrf
+                                            <input type="hidden" name="id_emplacement" value="{{ $emp->id }}">
+                                            <input type="hidden" name="emplacement" value="{{ $emp->emplacement }}">
+                                            <button class="btn btn-danger" title="Supprimer" data-toggle="tooltip" data-placement="top">
+                                                <i class="mdi mdi-delete text-white"></i>
+                                            </button>
+                                        </form>
 
-                                <tr style="background-color: {{ $couleur }} ">
-                                    <td>{{ $v_m->emplacement }}</td>
-                                    <td>{{ $v_m->code }}</td>
-                                    <td>{{ $v_m->nom }}</td>
-                                    <td>{{ $v_m->reste_en_stock }}</td>
-                                    <td>{{ $v_m->unite }}</td>
+                                    </td>
                                 </tr>
-                                @php
-                                    $previousEmplacement = $v_m->id_emplacement;
-                                @endphp
                             @endforeach
-
-
                             </tbody>
                         </table>
                     </div>
@@ -71,6 +65,8 @@
 
     <script src="{{ asset('js/tri-tableau.js') }}" ></script>
     <script src="{{ asset('js/recherche-tableau.js') }}"></script>
+    <script src="{{ asset('js/liste/liste-emplacement.js') }}"></script>
+
 
 
 

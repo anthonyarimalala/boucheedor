@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Liste;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categorie;
+use App\Models\Emplacement;
 use App\Models\produits\Produit;
 use App\Models\table\Unite;
 use App\Models\views\V_Emplacement;
@@ -13,6 +14,13 @@ use Illuminate\Http\Request;
 class ListeController extends Controller
 {
     //
+
+    public function showListeEmplacements(){
+        $data['emplacements'] = Emplacement::where('is_deleted', '!=', 1)->get();
+        $data['m_emp'] = new Emplacement();
+        //print($data['emplacements']);
+        return view('liste/liste-emplacement')->with($data);
+    }
 
 
     public function showProduitDetails(Request $request){
@@ -51,7 +59,7 @@ class ListeController extends Controller
     }
 
     public function showListeCategories(){
-        $data['categories'] = Categorie::all();
+        $data['categories'] = Categorie::where('is_deleted', '!=', 1)->get();
         return view('liste/liste-categorie')->with($data);
     }
     public function showListeProduits(){

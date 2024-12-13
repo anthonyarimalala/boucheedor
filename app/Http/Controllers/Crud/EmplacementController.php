@@ -11,13 +11,12 @@ use Illuminate\Support\Facades\DB;
 class EmplacementController extends Controller
 {
     //
-    public function showEmplacements(){
-        $data['emplacements'] = Emplacement::all();
-        $data['m_emp'] = new Emplacement();
-
-        return view('emplacement/emplacement')->with($data);
+    public function deleteEmplacement(Request $request){
+        $id_emplacement = $request->input('id_emplacement');
+        $emplacement = $request->input('emplacement');
+        DB::update('UPDATE emplacements SET is_deleted = 1 WHERE id=?', [$id_emplacement]);
+        return back()->with('success', 'Emplacement '.$emplacement.' supprimée avec succès!');
     }
-
     public function createEmplacement(Request $request){
         $validated = $request->validate([
             'emplacement' => 'required|string|min:3',

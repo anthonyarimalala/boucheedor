@@ -1,4 +1,4 @@
-DROP VIEW v_produits;
+
 CREATE OR REPLACE VIEW v_produits AS
 SELECT
     p.code ,
@@ -149,9 +149,9 @@ FROM d_cuisine_ingredients
 WHERE id_user_confirmation IS NULL AND sortie IS NOT null
 GROUP BY id_mouvement, nom_produit, numero, id_user, unite;
 
-
 CREATE VIEW v_mouvement_historiques AS
 SELECT
+    m.id,
     m.code_produit,
     p.nom,
     p.unite,
@@ -162,7 +162,9 @@ SELECT
     m.id_raison,
     r.raison,
     m.prix_unitaire,
-    m.date_mouvement
+    m.date_mouvement,
+    m.is_validate,
+    p.est_stockable
 FROM mouvements m
          JOIN emplacements e ON m.id_emplacement = e.id
          JOIN raison_mouvements r ON m.id_raison = r.id

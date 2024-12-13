@@ -16,7 +16,7 @@ class DetailNonConsommableController extends Controller
             SELECT *
             FROM (
                 SELECT *
-                FROM v_mouvement_inventaire_detail_diagrammes
+                FROM v_mouvement_stat_stock_diagrammes
                 WHERE code_produit = ?
                 ORDER BY date DESC
                 LIMIT 7

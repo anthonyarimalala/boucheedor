@@ -19,10 +19,9 @@ class DetailIngredientController extends Controller
             SELECT *
             FROM (
                 SELECT *
-                FROM v_mouvement_inventaire_detail_diagrammes
+                FROM v_mouvement_stat_stock_diagrammes
                 WHERE code_produit = ?
                 ORDER BY date DESC
-                LIMIT 30
                 ) AS sous_requete
                 WHERE date >= ? AND date <= ?
                 ORDER BY date ASC
@@ -32,10 +31,10 @@ class DetailIngredientController extends Controller
             SELECT *
             FROM (
                 SELECT *
-                FROM v_mouvement_inventaire_detail_diagrammes
+                FROM v_mouvement_stat_stock_diagrammes
                 WHERE code_produit = ?
                 ORDER BY date DESC
-                LIMIT 30
+                LIMIT 15
                 ) AS sous_requete
                 ORDER BY date ASC
                 "), [$code_produit]);

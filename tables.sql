@@ -73,6 +73,7 @@ CREATE TABLE mouvements(
   prix_unitaire DECIMAL(10, 2),
   date_mouvement TIMESTAMP,
   id_raison INTEGER REFERENCES raison_mouvements(id),
+  is_validate INTEGER DEFAULT 0,
   created_at TIMESTAMP,
   updated_at TIMESTAMP
 );
@@ -89,7 +90,6 @@ CREATE TABLE notifications(
                               created_at TIMESTAMP,
                               updated_at TIMESTAMP
 );
-DROP TABLE d_cuisine_ingredients;
 CREATE TABLE d_cuisine_ingredients(
         id SERIAL PRIMARY KEY,
         id_mouvement INTEGER REFERENCES mouvements(id),
@@ -103,8 +103,6 @@ CREATE TABLE d_cuisine_ingredients(
         created_at TIMESTAMP,
         updated_at TIMESTAMP
 );
-
-DROP TABLE import_produits;
 CREATE TABLE import_produits(
   id SERIAL PRIMARY KEY ,
   code VARCHAR(20) ,
@@ -119,9 +117,30 @@ CREATE TABLE import_produits(
   jours_limite_dans_le_stock INTEGER ,
   type VARCHAR(30) NOT NULL
 );
+CREATE TABLE import_fiche_produits(
+                      id SERIAL PRIMARY KEY,
+                      code_p VARCHAR(20),
+                      produit VARCHAR(255),
+                      code_i VARCHAR(20),
+                      ingredient VARCHAR(255),
+                      quantite FLOAT,
+                      unite VARCHAR(20)
+);
 
-CREATE SEQUENCE code_produit_seq;
-CREATE SEQUENCE code_ingredient_seq;
-CREATE SEQUENCE code_non_consommable_seq;
+INSERT INTO raison_mouvements(id, type_raison, raison) VALUES
+                                                      (10, 'entree', 'Achat'),
+                                                      (11, 'entree', 'DÚplacement'),
+                                                      (20, 'sortie', 'Vente'),
+                                                      (21, 'entree', 'DÚplacement'),
+                                                      (22, 'sortie', 'Cuisine'),
+                                                      (23, 'sortie', 'PÚrimÚ'),
+                                                      (24, 'sortie', 'Autre');
 
-
+INSERT INTO unites (unite, signification) VALUES
+                                              ('kg', 'Kilogramme'),  -- 1
+                                              ('g', 'Gramme'),       -- 2
+                                              ('l', 'Litre'),        -- 3
+                                              ('sac', 'Sac'),        -- 4
+                                              ('unitÚ', 'PiÚce'),    -- 5
+                                              ('paquet', 'Paquet'),  -- 6
+                                              ('bouteille', 'Bouteille');

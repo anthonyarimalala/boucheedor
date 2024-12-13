@@ -14,6 +14,7 @@ class Categorie extends Model
       'description',
       'type_categorie',
     ];
+
     public function sousCategories()
     {
         return $this->belongsToMany(Categorie::class, 'sous_categories', 'id_categorie', 'id_sous_categorie')

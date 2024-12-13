@@ -19,12 +19,12 @@
                     <br>
                     <div class="col-lg-4">
                         <strong> Raison de sortie: </strong> <br>
-                        <label for="avec_ingredients" class="form-label">Vente: </label>
-                        <input id="avec_ingredients" class="form-check-input" type="radio" value="20" name="id_raison" checked >
+                        <label for="avec_ingredients" class="form-label">Cuisine: </label>
+                        <input id="avec_ingredients" class="form-check-input" type="radio" value="22" name="id_raison" checked >
                         <label for="avec_ingredients" class="form-label">Seuil dépassé: </label>
                         <input id="avec_ingredients" class="form-check-input" type="radio" value="23" name="id_raison">
                         <label for="avec_ingredients" class="form-label">Autre: </label>
-                        <input id="avec_ingredients" class="form-check-input" type="radio" value="24" name="id_raison">
+                        <input id="avec_ingredients" class="form-check-input" type="radio" value="24" name="id_raison" >
                     </div>
                     <br>
                     <div class="col-lg-4">

@@ -11,7 +11,7 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Liste des tous les articles</h4>
+                    <h4 class="card-title">Historique des mouvements</h4>
 
                     <div class="col-lg-6">
                         <form class="row g-3">
@@ -43,7 +43,7 @@
                         <input id="avec_ingredients_sortie" class="form-check-input" type="checkbox" value="sortie" name="sortie" checked>
                     </div>
 
-                    @if($is_pagined){{ $v_historiques->links('pagination::bootstrap-4') }} @endif
+                @if($is_pagined){{ $v_historiques->links('pagination::bootstrap-4') }} @endif
                     <div class="table-responsive">
                         <table class="table table-striped" id="dataTable">
                             <thead>
@@ -61,20 +61,22 @@
                             <tbody>
                             @foreach($v_historiques as $vh)
                                 <tr class="type-categorie"
+                                    data-id="{{ $vh->id }}"
                                     data-entree="{{ $vh->entree != null ? 'true' : 'false' }}"
                                     data-sortie="{{ $vh->sortie != null ? 'true' : 'false' }}"
-                                    style="cursor:pointer; background-color: @if($vh->entree!=null && $vh->sortie==null) #abfc9f @endif">
+                                    style="  cursor:pointer; background-color: @if($vh->entree!=null && $vh->sortie==null) #abfc9f @endif"
+                                    onclick="window.location.href='mouvement/{{ $vh->id }}';">
                                     <td>{{ \Carbon\Carbon::parse($vh->date_mouvement)->format('d F Y H') }}h</td>
                                     <td>{{ $vh->code_produit }}</td>
                                     <td>{{ $vh->nom }}</td>
-                                    <td>@if($vh->entree!=null) {{ number_format($vh->entree, 2, ',', ' ')  }} {{ $vh->unite }} @endif</td>
-                                    <td>@if($vh->sortie!=null) {{ number_format($vh->sortie, 2, ',', ' ')  }} {{ $vh->unite }} @endif</td>
-                                    <td style="text-align: right"> {{ number_format($vh->prix_unitaire, 2, ',', ' ') }} Ariary</td>
+                                    <td>@if($vh->entree!=null) {{ number_format($vh->entree, 2, ',', ' ')  }} {{ $vh->unite }} @if($vh->is_validate == 0) <i class="mdi mdi-alert"></i> @endif @endif</td>
+                                    <td>@if($vh->sortie!=null) {{ number_format($vh->sortie, 2, ',', ' ')  }} {{ $vh->unite }} @if($vh->is_validate == 0) <i class="mdi mdi-alert"></i> @endif @endif</td>
+                                    <td style="text-align: right"> {{ number_format($vh->prix_unitaire, 2, ',', ' ') }} Ariary @if($vh->entree!=null) <i class="mdi mdi-alert"></i> @endif</td>
                                     <td
                                         @if($vh->id_raison == 23) style="background-color: #ffa6a6" @endif
                                     @if($vh->id_raison == 22) style="background-color: #8be3ff" @endif
                                     >{{ $vh->raison }}</td>
-                                    <td>{{ $vh->emplacement }}</td>
+                                    <td>{{ $vh->emplacement }} </td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -84,41 +86,11 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 
-    <script src="{{ asset('js/tri-tableau.js') }}" ></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const entreeCheckbox = document.getElementById("avec_ingredients_entree");
-            const sortieCheckbox = document.getElementById("avec_ingredients_sortie");
-            const rows = document.querySelectorAll("#dataTable tbody tr");
+    <script src="{{ asset('js/historique/historique.js') }}"></script>
 
-            function filterRows() {
-                const showEntree = entreeCheckbox.checked;
-                const showSortie = sortieCheckbox.checked;
 
-                rows.forEach(row => {
-                    const isEntree = row.getAttribute("data-entree") === "true";
-                    const isSortie = row.getAttribute("data-sortie") === "true";
-
-                    if ((showEntree && isEntree) || (showSortie && isSortie)) {
-                        row.style.display = ""; // Afficher
-                    } else {
-                        row.style.display = "none"; // Masquer
-                    }
-                });
-            }
-
-            // Ajouter des événements aux checkboxes
-            entreeCheckbox.addEventListener("change", filterRows);
-            sortieCheckbox.addEventListener("change", filterRows);
-
-            // Appliquer le filtre au chargement
-            filterRows();
-        });
-    </script>
 
 
 

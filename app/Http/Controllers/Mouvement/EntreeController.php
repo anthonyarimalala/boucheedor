@@ -33,6 +33,7 @@ class EntreeController extends Controller
                 $m_mouvement->id_emplacement = $request->input('emplacement-'.$code);
                 $m_mouvement->date_mouvement = $date;
                 $m_mouvement->id_raison = 10;
+                $m_mouvement->is_validate = 0;
 
                 $m_mouvement->save();
             }

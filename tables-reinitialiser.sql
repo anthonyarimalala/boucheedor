@@ -10,6 +10,8 @@ DROP VIEW v_mouvement_produit_ingredients;
 DROP VIEW v_mouvement_stat_stock_diagrammes;
 DROP VIEW v_mouvement_inventaire_detail_diagrammes;
 
+DROP TABLE d_cuisine_ingredients;
+DROP TABLE import_fiche_produits;
 DROP TABLE import_produits;
 DROP TABLE cuisine_ingredientS;
 DROP TABLE notifications;
@@ -22,9 +24,4 @@ DROP TABLE emplacements;
 DROP TABLE unites;
 DROP TABLE sous_categories;
 DROP TABLE categories;
-
-DROP SEQUENCE code_produit_seq;
-DROP SEQUENCE code_ingredient_seq;
-DROP SEQUENCE code_non_consommable_seq;
-
 

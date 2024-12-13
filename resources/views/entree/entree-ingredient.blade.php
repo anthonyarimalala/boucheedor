@@ -80,4 +80,5 @@
     <script src="{{ asset('js/recherche-tableau.js') }}"></script>
 
 
+
 @endsection

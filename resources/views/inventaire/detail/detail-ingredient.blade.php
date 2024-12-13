@@ -40,7 +40,6 @@
 
 
                 <script>
-
                     // Récupérer les données du backend (Laravel)
                     const diagrams = @json($diagrams);
 
@@ -50,9 +49,9 @@
                     // Obtenir la dernière date
                     const lastDate = new Date(diagrams[diagrams.length - 1].date);
 
-                    // Générer une séquence de 7 jours à partir de la dernière date
+                    // Générer une séquence de 30 jours à partir de la dernière date
                     const dateRange = [];
-                    for (let i = 0; i < 30; i++) {
+                    for (let i = 0; i < 15; i++) {
                         const date = new Date(lastDate);
                         date.setDate(lastDate.getDate() - i); // Décrémente d'un jour à chaque itération
                         dateRange.push(date.toISOString().split('T')[0]); // Format 'YYYY-MM-DD'
@@ -67,21 +66,22 @@
 
                     // Remplir les stocks pour chaque date
                     dateRange.forEach(date => {
-                        const entry = diagrams.find(d => d.date === date); // Chercher l'entrée correspondant à la date
+                        // Chercher l'entrée correspondant à la date
+                        const entry = diagrams.find(d => d.date === date);
+
                         if (entry) {
                             lastStock = entry.stock; // Met à jour lastStock avec le stock trouvé pour la date
-                            stocks.push(lastStock); // Ajoute le stock trouvé
-                        } else {
-                            stocks.push(lastStock); // Si pas de stock trouvé, utilise la dernière valeur (lastStock)
                         }
+                        // Ajouter la valeur de lastStock (la dernière valeur trouvée) même s'il n'y a pas d'entrée
+                        stocks.push(lastStock);
                     });
 
                     // Configuration du diagramme
                     const ctx = document.getElementById('stockChart').getContext('2d');
                     const stockChart = new Chart(ctx, {
-                        type: 'line', // Type de diagramme (ligne)
+                        type: 'bar', // Type de diagramme (ligne)
                         data: {
-                            labels: dateRange, // Les 7 dernières dates (ordre du plus ancien au plus récent)
+                            labels: dateRange, // Les 30 dernières dates (ordre du plus ancien au plus récent)
                             datasets: [{
                                 label: '@if(isset($details[0])) Stock de {{ $details[0]->nom }} @endif',
                                 data: stocks, // Les stocks correspondants (0 si pas de données)

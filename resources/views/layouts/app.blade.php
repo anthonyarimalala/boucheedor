@@ -254,21 +254,18 @@
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'cuisinier' )
 
                 @endif
-
                 <li class="nav-item">
                     <a class="nav-link" href="{{asset('/')}}">
                         <i class="mdi mdi-view-dashboard menu-icon"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="{{asset('actualiser-notification')}}">
                         <i class="mdi mdi-refresh menu-icon"></i>
                         <span class="menu-title">Actualiser</span>
                     </a>
                 </li>
-
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'cuisinier' )
                     <li class="nav-item nav-category">Check</li>
                     <li class="nav-item">
@@ -305,7 +302,7 @@
                         </a>
                         <div class="collapse" id="entree">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{ asset('entree-produit') }}">Produit</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('entree-produit') }}">Produit à vendre</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('entree-ingredient') }}">Ingrédient</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('entree-non-consommable') }}">Non Consommable</a></li>
                             </ul>
@@ -320,7 +317,7 @@
                         </a>
                         <div class="collapse" id="sortie">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{ asset('sortie-produit') }}">Produit</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('sortie-produit') }}">Produit à vendre</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('sortie-ingredient') }}">Ingrédient</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('sortie-non-consommable') }}">Non Consommable</a></li>
                             </ul>
@@ -336,11 +333,10 @@
                         <div class="collapse" id="stock">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-tous') }}">Tous</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-produit') }}">Produits</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-produit') }}">Produits à vendre</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-ingredient') }}">Ingrédients</a></li>
-                                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                                    <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-non-consommable') }}">Non Consommable</a></li>
-                                @endif
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('inventaire-non-consommable') }}">Non Consommable</a></li>
+
                             </ul>
                         </div>
                     </li>
@@ -354,16 +350,10 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('liste-produits') }}">Produits</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('modifier-recette/liste-produit-transforme') }}">Fiche produit</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{asset('emplacements')}}">Emplacements</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{asset('liste-emplacements')}}">Emplacements</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('liste-categories') }}">Catégories</a></li>
                             </ul>
                         </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">
-                            <i class="mdi mdi-chart-line menu-icon"></i>
-                            <span class="menu-title">Statistiques</span>
-                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{asset('couts')}}">
@@ -398,7 +388,7 @@
                         </a>
                         <div class="collapse" id="insertion">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{ asset('create-produit') }}">Produit</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ asset('create-produit') }}">Produit à vendre</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('create-ingredient') }}">Ingrédient</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('create-non-consommable') }}">Non Consommable</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ asset('create-categorie') }}">Catégorie</a></li>

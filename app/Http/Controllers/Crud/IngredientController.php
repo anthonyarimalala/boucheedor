@@ -10,6 +10,7 @@ use App\Models\produits\Produit;
 use App\Models\table\Unite;
 use App\Models\views\V_Emplacement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class IngredientController extends Controller
 {
@@ -29,8 +30,9 @@ class IngredientController extends Controller
             'unite' => 'required',
             'seuil_reapprovisionnement' => 'required|numeric',
         ]);
+        $max_I = DB::select("SELECT COALESCE(MAX(SUBSTRING(code FROM '[0-9]+')::INTEGER), 0) AS max_code FROM produits WHERE code LIKE 'I%'")[0]->max_code;
         $ingredient = new Ingredient();
-        $ingredient->code = Produit::generateCode("I", 4, 'code_ingredient_seq');
+        $ingredient->code = Produit::generateCodeNonSeq("I", 4, $max_I+1) ;
         $ingredient->nom = $request->input('nom');
         $ingredient->description = $request->input('description');
         $ingredient->id_categorie = $request->input('id_categorie');
